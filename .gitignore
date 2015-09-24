@@ -1,0 +1,11 @@
+*.elc
+*.pyc
+*~
+*\#
+.*.swp
+._*
+.DS_Store
+.Trashes*
+.Spotlight-V100*
+.fseventsd*
+*.tar.gz
