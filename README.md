@@ -29,7 +29,7 @@ This assumes you have already set up the new destination machine with a base OS 
   - I didn't have that, so I just did a manual install on the VM. VMWare does make this very straightforward to do.
   - This could also be an actual hardware instance of a machine.
 
-You'll need a user that can sudo.
+You'll also need a user account that can sudo.
 
 #### Tell ansible about hosts
 
@@ -42,37 +42,43 @@ You can also pass the hosts file in as a parameter on the command line.
 
 #### Configure SSH public key connections
 
-[https://help.ubuntu.com/community/SSH/OpenSSH/Keys](https://help.ubuntu.com/community/SSH/OpenSSH/Keys)
+https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
 generate local keys:
+
     ssh-keygen -t rsa
 
 then transfer the client's public key to the host for the user that can sudo.
 see above for manual transfer process, or use ssh-copy-id
 on OSX, this works:
-[https://github.com/beautifulcode/ssh-copy-id-for-OSX](https://github.com/beautifulcode/ssh-copy-id-for-OSX)
+
+https://github.com/beautifulcode/ssh-copy-id-for-OSX
 
 
 #### Ansible configuration defaults (optional)
 
-cd ~/path/to/scripts/for/ansible 
-vi ansible.cfg
+    cd ~/path/to/scripts/for/ansible 
+    vi ansible.cfg
 
 using this as template:
+
 https://raw.githubusercontent.com/ansible/ansible/devel/examples/ansible.cfg
 
 
 #### Test Ansible:
 
 hopefully, at this point, if you run:
+
     ansible all -m ping -i hosts.txt
 
 it should be "success"!
 
 another helpful testing / debug command:
+
     ansible apache -m command -a "/bin/echo hello sammy"
 
 the above steps are also outlined in this guide:
+
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-an-ubuntu-12-04-vps
 
 
@@ -80,25 +86,20 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-an
 
 I have modeled these playbooks closely to the documentation we have for configuring our linux servers. This may not be optimal from Ansible's best practices perspective, but it's a good place to start. So far, we have:
 
-   ansible-playbook common.yml -i hosts.txt --ask-become-pass
+    ansible-playbook common.yml -i hosts.txt --ask-become-pass
 
-   ansible-playbook db.yml -i hosts.txt --ask-become-pass
+    ansible-playbook db.yml -i hosts.txt --ask-become-pass
 
-   ansible-playbook apache.yml -i hosts.txt --ask-become-pass
+    ansible-playbook apache.yml -i hosts.txt --ask-become-pass
 
-   ansible-playbook php.yml -i hosts.txt --ask-become-pass
+    ansible-playbook php.yml -i hosts.txt --ask-become-pass
 
 
 Be sure to change:
 
-   remote_user: username
+    remote_user: username
 
 to whatever username you configured on the system.
 
-
-
-
-alternative approach to apache:
-https://www.digitalocean.com/community/tutorials/how-to-configure-apache-using-ansible-on-ubuntu-14-04
 
 
