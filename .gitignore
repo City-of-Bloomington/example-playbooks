@@ -9,3 +9,15 @@
 .Spotlight-V100*
 .fseventsd*
 *.tar.gz
+ansible.cfg
+host_vars/
+hosts
+hosts.dpkg-old
+roles/ANXS.mysql/
+roles/HanXHX.firewall/
+roles/geerlingguy.apache/
+roles/kosssi.apt/
+roles/kosssi.php/
+roles/ontic.ntp/
+windows.bak
+
