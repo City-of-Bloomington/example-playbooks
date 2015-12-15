@@ -1,0 +1,4 @@
+---
+# tasks file for cob.linux-common
+- name: Setup VIM
+  include: vim.yml

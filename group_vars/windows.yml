@@ -1,0 +1,2 @@
+ansible_ssh_port: 5986
+ansible_connection: winrm

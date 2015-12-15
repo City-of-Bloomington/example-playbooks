@@ -1,0 +1,49 @@
+- name: Add entries to Mysql configuration file
+  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="default_storage_engine=InnoDB" state=present
+  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="character_set_server=utf8" state=present
+  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="innodb_file_per_table=1" state=present
+  notify: 
+  - restart mysql
+  tags: mysql
+
+- name: stop mysql
+  service: name=mysql state=stopped
+  tags: mysql
+
+- name: Remove old databases
+  command: rm -Rf /var/lib/mysql    
+  tags: mysql
+
+- name: Initialize databases
+  command: /usr/bin/mysql_install_db
+  tags: mysql
+
+- name: Update database permissions
+  command: chown -R mysql /var/lib/mysql
+  tags: mysql
+
+- name: Start Mysql Service
+  service: name=mysql state=started enabled=yes
+  tags: mysql
+
+
+    #TODO:
+    # configure Database user accounts according to documentation
+
+
+    #TODO:
+    #consider other mysql configurations here:
+
+    # - name: insert iptables rule
+    #   lineinfile: dest=/etc/sysconfig/iptables state=present regexp="{{ mysql_port }}"
+    #               insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport {{ mysql_port }} -j  ACCEPT"
+    #   notify: restart iptables
+
+    # - name: Create Application Database
+    #   mysql_db: name={{ dbname }} state=present
+
+    # - name: Create Application DB User
+    #   mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present
+
+    #     Status API Training Shop Blog About Pricing 
+    

@@ -1,0 +1,14 @@
+/var/log/httpd/*.log {
+        monthly
+        missingok
+        rotate 12
+        compress
+        delaycompress
+        notifempty
+        sharedscripts
+        postrotate
+        if [ -f /usr/local/apache/logs/httpd.pid ]; then
+                /etc/init.d/apache restart > /dev/null
+        fi
+        endscript
+}

@@ -1,0 +1,7 @@
+- hosts: linux-webservers-src
+  become: yes
+  roles:
+    - { role: cob.role-handler, cob_build_apache_role: 1, cob_mysql_role: 1 }
+    - cob.build-apache
+    - cob.mysql
+    - cob.build-php

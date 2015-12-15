@@ -1,0 +1,10 @@
+- hosts: linux-webservers
+  become: yes
+  roles: 
+    - franklinkim.ufw
+    - kosssi.apt
+    - geerlingguy.apache
+    - ANXS.mysql
+    - kosssi.php
+
+  
