@@ -1,7 +1,8 @@
 - name: Add entries to Mysql configuration file
-  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="default_storage_engine=InnoDB" state=present
-  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="character_set_server=utf8" state=present
-  lineinfile: dest=/etc/mysql/my.cnf insertafter="[mysqld]" line="innodb_file_per_table=1" state=present
+  lineinfile: dest=/etc/mysql/my.cnf 
+    insertafter="^\[mysqld\]$" 
+    line="default_storage_engine=InnoDB\ncharacter_set_server=utf8\ninnodb_file_per_table=1" 
+    state=present
   notify: 
   - restart mysql
   tags: mysql
