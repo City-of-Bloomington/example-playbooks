@@ -3,7 +3,7 @@
   file: path={{ cob_apache_src_dir }}/ state=directory mode=0755
 
 - name: Get Apache HTTPD Download location
-  shell: curl {{ cob_apache_httpd_url }} | grep -o http://.*httpd-{{cob_apache_httpd_version}}.*.tar.gz\" | tr -d \"
+  shell: curl http://httpd.apache.org/download.cgi | grep -o http://.*httpd-{{cob_apache_httpd_version}}.*.tar.gz\" | tr -d \"
   register: cob_apache_httpd_location
 
 - name: Find out what HTTPD version we are downloading
@@ -11,7 +11,7 @@
   register: cob_apache_httpd_file
 
 - name: Get Apache APR Download location
-  shell: curl {{ cob_apache_apr_url }} | egrep -o http://.*apr-[0-9].*.tar.gz\" | tr -d \"
+  shell: curl http://apr.apache.org/download.cgi | egrep -o http://.*apr-[0-9].*.tar.gz\" | tr -d \"
   register: cob_apache_apr_location
 
 - name: Find out what APR version we are downloading
@@ -19,7 +19,7 @@
   register: cob_apache_apr_file
 
 - name: Get Apache APR-Util Download location
-  shell: curl {{ cob_apache_apr_url }} | egrep -o http://.*apr-util.*.tar.gz\" | tr -d \"
+  shell: curl http://apr.apache.org/download.cgi | egrep -o http://.*apr-util.*.tar.gz\" | tr -d \"
   register: cob_apache_aprutil_location
 
 - name: Get Apache APR-Util version we are downloading
