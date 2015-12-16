@@ -1,0 +1,66 @@
+- name: Cleanup downloaded files
+  file: path=files/downloads/{{ item }} state=absent 
+  with_items:
+    - {{ cob_apache_httpd_file.stdout }}
+    - {{ cob_apache_apr_file.stdout }}
+    - {{ cob_apache_aptutil_file.stdout }}
+
+# just copying a local template over instead of updating in place:
+- name: Create apache configuration file
+  template: src=templates/httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
+
+- name: create /var/log/httpd directory
+  file: path=/var/log/httpd state=directory mode=0755
+
+- name: create /srv/sites directory
+  # create a directory if it doesn't exist
+  file: path=/srv/sites state=directory mode=0775
+
+#check for earlier copies:
+- name: Check if /srv/sites/master path exists
+  stat: path=/srv/sites/master
+  register: check_path
+
+- name: Copy htdocs to /srv/sites/master
+  command: cp -R /usr/local/apache/htdocs /srv/sites/master
+  when: not check_path.stat.exists
+
+- name: update ownership
+  command: chown -R apache:staff /srv/sites
+
+- name: update group as writeable
+  command: chmod -R g+w /srv/sites
+
+- name: ensure websites.conf file exists
+  command: touch /usr/local/apache/conf/websites.conf
+
+    #http://docs.ansible.com/ansible/lineinfile_module.html
+- name: update apachectl
+  lineinfile: dest=/usr/local/apache/bin/apachectl state=present insertbefore=BOF line="{{ item }}"
+  with_items:
+    #this is reverse of what it should be in the file
+    - "### END INIT INFO"
+    - "# Description:       Start the web server"
+    - "# Short-Description: Apache web server"
+    - "# X-Interactive:     true"
+    - "# Default-Stop:      0 1 6"
+    - "# Default-Start:     2 3 4 5"
+    - "# Required-Stop:     $local_fs $remote_fs $network $syslog $named"
+    - "# Required-Start:    $local_fs $remote_fs $network $syslog $named"
+    - "# Provides:          apache"
+    - "### BEGIN INIT INFO"
+
+- name: link to apachectl
+  #this is idempotent
+  file: src=/usr/local/apache/bin/apachectl dest=/etc/init.d/apache state=link
+  #command: ln -s /usr/local/apache/bin/apachectl /etc/init.d/apache
+
+- name: Create logrotate configuration file
+  template: src=templates/logrotate.apache.j2 dest=/etc/logrotate.d/apache
+
+- name: enable apache to start at boot
+  service: name=apache enabled=yes
+
+- name: make sure apache is running!
+  service: name=apache state=started
+

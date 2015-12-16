@@ -4,11 +4,11 @@ cob_apache_firewall_open_tcp_ports: [80, 443]
 
 cob_apache_apt_install: [ libxml2-dev, libxslt-dev, libldap2-dev, libtidy-dev, libcurl4-openssl-dev, imagemagick, libjpeg-dev, libpng-dev, libxpm-dev, libfreetype6-dev, libpcre3-dev, libicu-dev, libmysqlclient-dev ]
 
-src_dir: /usr/local/src
+cob_apache_src_dir: /usr/local/src
 
-httpd_version: httpd-2.4.17
-apr_version: apr-1.5.2
-apr_util_version: apr-util-1.5.4
+# All versions are major versions, Apache role will grab the latest minor version.
+cob_apache_httpd_version: 2.4
 
-httpd_dir: '{{ src_dir }}/{{ httpd_version }}'
+cob_apache_httpd_url: http://httpd.apache.org/download.cgi
+cob_apache_apr_url: http://apr.apache.org/download.cgi
 

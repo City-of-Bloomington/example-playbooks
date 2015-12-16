@@ -1,3 +1,5 @@
 ---
 # tasks file for cob.build-apache
+- include: download-apache.yml
 - include: build-apache.yml
+- include: post-install.yml
