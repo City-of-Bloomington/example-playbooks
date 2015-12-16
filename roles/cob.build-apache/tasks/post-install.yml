@@ -8,28 +8,29 @@
 # just copying a local template over instead of updating in place:
 - name: Create apache configuration file
   template: src=httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
+  notify: restart apache 
 
 - name: create /var/log/httpd directory
   file: path=/var/log/httpd state=directory mode=0755
 
-- name: create /srv/sites directory
+- name: create serve directory
   # create a directory if it doesn't exist
-  file: path=/srv/sites state=directory mode=0775
+  file: path={{ cob_apache_serve_dir }} state=directory mode=0775
 
 #check for earlier copies:
-- name: Check if /srv/sites/master path exists
-  stat: path=/srv/sites/master
+- name: Check if {{ cob_apache_serve_dir }}/master path exists
+  stat: path={{ cob_apache_serve_dir }}/master
   register: check_path
 
-- name: Copy htdocs to /srv/sites/master
-  command: cp -R /usr/local/apache/htdocs /srv/sites/master
+- name: Copy htdocs to {{ cob_apache_serve_dir}}/master
+  command: cp -R /usr/local/apache/htdocs {{ cob_apache_serve_dir }}/master
   when: not check_path.stat.exists
 
 - name: update ownership
-  command: chown -R apache:staff /srv/sites
+  command: chown -R apache:staff {{ cob_apache_serve_dir }}
 
 - name: update group as writeable
-  command: chmod -R g+w /srv/sites
+  command: chmod -R g+w {{ cob_apache_serve_dir }} 
 
 - name: ensure websites.conf file exists
   command: touch /usr/local/apache/conf/websites.conf
@@ -51,16 +52,14 @@
     - "### BEGIN INIT INFO"
 
 - name: link to apachectl
-  #this is idempotent
-  file: src=/usr/local/apache/bin/apachectl dest=/etc/init.d/apache state=link
-  #command: ln -s /usr/local/apache/bin/apachectl /etc/init.d/apache
+  file: src=/usr/local/apache/bin/apachectl dest=/etc/init.d/{{ cob_apache_service_name}} state=link
 
 - name: Create logrotate configuration file
   template: src=logrotate.apache.j2 dest=/etc/logrotate.d/apache
 
-- name: enable apache to start at boot
-  service: name=apache enabled=yes
-
-- name: make sure apache is running!
-  service: name=apache state=started
-
+- name: Ensure Apache is started and enabled on boot.
+  service:
+    name: "{{ cob_apache_service_name }}"
+    state: "{{ cob_apache_service_state }}"
+    enabled: yes
+    pattern: /usr/local/apache/bin/httpd
