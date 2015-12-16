@@ -8,7 +8,3 @@ cob_apache_src_dir: /usr/local/src
 
 # All versions are major versions, Apache role will grab the latest minor version.
 cob_apache_httpd_version: 2.4
-
-cob_apache_httpd_url: http://httpd.apache.org/download.cgi
-cob_apache_apr_url: http://apr.apache.org/download.cgi
-
