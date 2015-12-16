@@ -1,13 +1,13 @@
 - name: Cleanup downloaded files
   file: path=files/downloads/{{ item }} state=absent 
   with_items:
-    - {{ cob_apache_httpd_file.stdout }}
-    - {{ cob_apache_apr_file.stdout }}
-    - {{ cob_apache_aptutil_file.stdout }}
+    - "{{ cob_apache_httpd_file.stdout }}"
+    - "{{ cob_apache_apr_file.stdout }}"
+    - "{{ cob_apache_aprutil_file.stdout }}"
 
 # just copying a local template over instead of updating in place:
 - name: Create apache configuration file
-  template: src=templates/httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
+  template: src=httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
 
 - name: create /var/log/httpd directory
   file: path=/var/log/httpd state=directory mode=0755
@@ -56,7 +56,7 @@
   #command: ln -s /usr/local/apache/bin/apachectl /etc/init.d/apache
 
 - name: Create logrotate configuration file
-  template: src=templates/logrotate.apache.j2 dest=/etc/logrotate.d/apache
+  template: src=logrotate.apache.j2 dest=/etc/logrotate.d/apache
 
 - name: enable apache to start at boot
   service: name=apache enabled=yes
