@@ -8,3 +8,7 @@ cob_apache_src_dir: /usr/local/src
 
 # All versions are major versions, Apache role will grab the latest minor version.
 cob_apache_httpd_version: 2.4
+
+cob_apache_service_name: apache
+cob_apache_service_state: started
+cob_apache_serve_dir: /srv/sites
