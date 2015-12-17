@@ -1,0 +1,20 @@
+---
+#http://docs.ansible.com/ansible/lineinfile_module.html
+- name: update httpd.conf
+#lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp="LoadModule php5_module        Modules/libphp5.so" line="{{ item }}" backrefs=yes
+  lineinfile: dest=/usr/local/apache/conf/httpd.conf state=present insertafter="LoadModule php5_module" line="AddType application/x-httpd-php .php"
+
+#- name: create php lib dir
+#  file: path=/usr/local/php/lib/ state=directory mode=0755
+
+- name: Create php.ini file (development)
+  template: src=php.ini-development.j2 dest=/usr/local/php/lib/php.ini
+  when: production == 'No'
+  notify: restart apache
+
+- name: Create php.ini file (production)
+  template: src=php.ini-production.j2 dest=/usr/local/php/lib/php.ini
+  when: production == 'Yes'
+  notify: restart apache
+
+
