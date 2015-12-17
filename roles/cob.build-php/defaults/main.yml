@@ -1,8 +1,11 @@
 ---
 # defaults file for cob.build-php
-src_dir: /usr/local/src
-php_version: php-5.6.13
-php_dir: '{{ src_dir }}/{{ php_version }}'
+cob_php_src_dir: /usr/local/src
+
+# List major version only
+cob_php_version: php-5.6
+
+cob_php_mirror_server: http://us1.php.net
 
 #'Yes' for php.ini-production
 production: 'Yes'
