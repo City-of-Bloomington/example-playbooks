@@ -5,6 +5,4 @@ ntp_servers:
   - cob.bloomington.in.gov
 ntp_timezone: 'America/Indiana/Indianapolis'
 
-firewall_open_tcp_ports: [22]
-apt_install: [build-essential, autoconf, libssl-dev, emacs, zip, unzip, subversion, git]
-
+cob_common_packages: [build-essential, autoconf, libssl-dev, emacs, zip, unzip, subversion, git]

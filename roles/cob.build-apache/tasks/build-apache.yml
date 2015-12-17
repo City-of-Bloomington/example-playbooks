@@ -9,7 +9,7 @@
 - name: Move apr to httpd/srclib
   command: mv {{ cob_apache_src_dir }}/{{ cob_apache_apr_file.stdout }} {{ cob_apache_httpd_dir }}/srclib/apr
   when: not check_apr_path.stat.exists
-      
+
 - name: Check if apr util path exists
   stat: path={{ cob_apache_httpd_dir }}/srclib/apr-util
   register: check_apr_util_path
@@ -18,19 +18,24 @@
   command: mv {{ cob_apache_src_dir }}/{{ cob_apache_aprutil_file.stdout}} {{ cob_apache_httpd_dir }}/srclib/apr-util
   when: not check_apr_util_path.stat.exists
 
+- name: Check for previous build
+  stat: path={{ cob_apache_httpd_dir }}/config.log
+  register: apache_config_log
+
 #TODO:
 #not sure if there is a way to check that this step has happened previously
 #and skip it in that case
 
 #adapted via:
 #http://serverfault.com/questions/573843/ansible-playbook-not-working-trying-to-run-make-configure-with-complex-switche
-    
+
 - name: Build httpd with apr
   shell: 'cd {{ cob_apache_httpd_dir }};{{ item }}'
   with_items:
     - ./configure --prefix=/usr/local/apache --with-included-apr --enable-proxy --enable-so --enable-ssl --enable-expires --enable-headers --enable-rewrite --enable-cgi --disable-status --disable-userdir --disable-autoindex --with-mpm=prefork
     - make
     - make install
+  when: not apache_config_log.stat.exists
 
 # http://docs.ansible.com/ansible/user_module.html
 - name: Add apache user
@@ -51,7 +56,7 @@
     #http://docs.ansible.com/ansible/YAMLSyntax.html
     #backrefs=yes avoid lines being added at the end of the file
     #http://stackoverflow.com/questions/19390600/ansible-lineinfile-duplicates-line
-    
+
     # - name: update httpd.conf Load modules
     #   lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp="#{{ item }}" line="{{ item }}" backrefs=yes
     #   with_items:
@@ -79,7 +84,7 @@
     #   lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp='ErrorLog "logs/error_log"' line='ErrorLog "/var/log/httpd/error.log"' backrefs=yes
 
     # - name: update httpd.conf CustomLog common
-    #   lineinfile: dest=/usr/local/apache/conf/httpd.conf backrefs=yes regexp="   CustomLog \"logs/access_log\" common" line="    #CustomLog \"logs/access_log\" common" 
+    #   lineinfile: dest=/usr/local/apache/conf/httpd.conf backrefs=yes regexp="   CustomLog \"logs/access_log\" common" line="    #CustomLog \"logs/access_log\" common"
 
     # - name: update httpd.conf CustomLog combined
     #   lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp='    #CustomLog "logs/access_log" combined' line='    CustomLog "/var/log/httpd/access.log" combined' backrefs=yes

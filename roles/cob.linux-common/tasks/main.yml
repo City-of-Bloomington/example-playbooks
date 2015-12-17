@@ -1,5 +1,18 @@
 ---
 # tasks file for cob.linux-common
+- command: apt-get update
+
+- command: apt-get upgrade -y
+
+- name: Install common packages
+  action: apt pkg={{ item }} state=present
+  tags: common
+  with_items: cob_common_packages
+
+- name: setup Firewall
+  include: firewall.yml
+  tags: firewall
+
 - name: Setup VIM
   include: vim.yml
 
