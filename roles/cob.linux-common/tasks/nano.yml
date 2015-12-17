@@ -1,0 +1,6 @@
+- name: Add syntax file for Conf files
+  copy: src=nano/conf.nanorc dest=/usr/share/nano/conf.nanorc
+
+- lineinfile: dest=/etc/nanorc regexp='set tabsize' line='set tabsize 4'
+- lineinfile: dest=/etc/nanorc regexp='set tabstospaces' line='set tabstospaces'
+- lineinfile: dest=/etc/nanorc insertafter='include "/usr/share/nano/c.nanorc"' line='include "/usr/share/nano/conf.nanorc"'
