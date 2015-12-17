@@ -1,0 +1,22 @@
+---
+- name: create build directory
+  # create a directory if it doesn't exist
+  file: path={{ cob_php_src_dir }}/ state=directory mode=0755
+
+- name: Get PHP file name 
+  shell: curl http://php.net/downloads.php | egrep -o '>{{ cob_php_version }}.*.tar.gz<' | tr -d '<' | tr -d '>'
+  register: cob_php_file_name
+
+- name: Get PHP version
+  shell: echo {{ cob_php_file_name.stdout }} | egrep -o {{ cob_php_version }}.*[0-9]
+  register: cob_php_full_version
+
+- name: Debug
+  debug: msg={{ cob_php_mirror_server }}/get/{{ cob_php_file_name.stdout }}/from/this/mirror
+
+- name: Download PHP 
+  get_url: url={{ cob_php_mirror_server }}/get/{{ cob_php_file_name.stdout }}/from/this/mirror dest={{ cob_php_src_dir }}
+
+- name: copy local php source file and extract
+  unarchive: src={{ cob_php_src_dir }}/{{ cob_php_file_name.stdout }} dest={{ cob_php_src_dir }} copy=no
+
