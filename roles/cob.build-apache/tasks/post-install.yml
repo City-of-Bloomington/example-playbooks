@@ -1,14 +1,7 @@
-- name: Cleanup downloaded files
-  file: path=files/downloads/{{ item }} state=absent 
-  with_items:
-    - "{{ cob_apache_httpd_file.stdout }}"
-    - "{{ cob_apache_apr_file.stdout }}"
-    - "{{ cob_apache_aprutil_file.stdout }}"
-
 # just copying a local template over instead of updating in place:
 - name: Create apache configuration file
   template: src=httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
-  notify: restart apache 
+  notify: restart apache
 
 - name: create /var/log/httpd directory
   file: path=/var/log/httpd state=directory mode=0755
@@ -30,7 +23,7 @@
   command: chown -R apache:staff {{ cob_apache_serve_dir }}
 
 - name: update group as writeable
-  command: chmod -R g+w {{ cob_apache_serve_dir }} 
+  command: chmod -R g+w {{ cob_apache_serve_dir }}
 
 - name: ensure websites.conf file exists
   command: touch /usr/local/apache/conf/websites.conf
