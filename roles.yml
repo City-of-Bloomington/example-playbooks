@@ -1,8 +1,2 @@
 - src: ontic.ntp
   path: roles/
-
-- src: HanXHX.firewall
-  path: roles/
-
-- src: kosssi.apt
-  path: roles/

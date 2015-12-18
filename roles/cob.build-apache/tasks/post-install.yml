@@ -1,7 +1,24 @@
 # just copying a local template over instead of updating in place:
-- name: Create apache configuration file
-  template: src=httpd.conf.j2 dest=/usr/local/apache/conf/httpd.conf
-  notify: restart apache
+- name: Update base httpd.conf
+  lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
+  with_items:
+  - { regexp: 'LoadModule socache_shmcb_module', line: 'LoadModule socache_shmcb_module modules/mod_socache_shmcb.so' }
+  - { regexp: 'LoadModule slotmem_shm_module',   line: 'LoadModule slotmem_shm_module modules/mod_slotmem_shm.so' }
+  - { regexp: 'LoadModule ssl_module',           line: 'LoadModule ssl_module modules/mod_ssl.so' }
+  - { regexp: 'LoadModule rewrite_module',       line: 'LoadModule rewrite_module modules/mod_rewrite.so' }
+  - { regexp: '^User [a-z]+$',  line: 'User apache' }
+  - { regexp: '^Group [a-z]+$', line: 'Group apache' }
+  - { regexp: '^DocumentRoot\s+\"(/usr/local/apache/htdocs|/srv/sites/master)\"', line: 'DocumentRoot \"/srv/sites/master\"' }
+  - { regexp: '^<Directory\s+\"(/usr/local/apache/htdocs|/srv/sites/master)\"',   line: '<Directory   \"/srv/sites/master\">' }
+  - { regexp: '^ErrorLog ', line: 'ErrorLog /var/log/httpd/error.log' }
+  - { regexp: 'CustomLog [\"a-z_/]+ common',     line: '    #CustomLog \"logs/access_log\" common' }
+  - { regexp: 'CustomLog [\"a-z_/\.]+ combined', line: '    CustomLog \"/var/log/httpd/access.log\" combined' }
+
+- name: Create websites.conf
+  command: touch /usr/local/apache/conf/websites.conf
+
+- name: Add websites.conf to httpd.conf
+  lineinfile: dest=/usr/local/apache/conf/httpd.conf insertafter=EOF line='Include conf/websites.conf'
 
 - name: create /var/log/httpd directory
   file: path=/var/log/httpd state=directory mode=0755
@@ -24,9 +41,6 @@
 
 - name: update group as writeable
   command: chmod -R g+w {{ cob_apache_serve_dir }}
-
-- name: ensure websites.conf file exists
-  command: touch /usr/local/apache/conf/websites.conf
 
     #http://docs.ansible.com/ansible/lineinfile_module.html
 - name: update apachectl
