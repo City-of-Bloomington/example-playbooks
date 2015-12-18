@@ -1,9 +1,10 @@
 ---
 # tasks file for cob.linux-common
 - command: apt-get update
-  tags: apt_update
+  tags: [ apt_update, apt_upgrade ]
 
 - command: apt-get upgrade -y
+  tags: apt_upgrade
 
 - name: Install common packages
   action: apt pkg={{ item }} state=present

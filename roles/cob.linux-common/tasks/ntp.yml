@@ -31,5 +31,3 @@
     state: '{{ ntp_service_state }}'
     enabled: '{{ ntp_service_enabled }}'
 
-
-# Use Ubuntu's ntp server as a fallback.

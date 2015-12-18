@@ -1,5 +1,14 @@
 - name: Configure the firewall (ssh)
   ufw: rule=allow port=ssh
 
+- name: Configure the firewall (ntp/nagios)
+  ufw: 
+    rule: allow
+    port: ntp
+    from_ip: '{{ nagios_ip }}'
+
 - name: Enable the firewall
   ufw: state=enabled policy=deny
+
+
+
