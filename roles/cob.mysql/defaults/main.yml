@@ -1,3 +1,0 @@
----
-cob_mysql_apt_install: [ mysql-server, mysql-client, libmysqlclient-dev, python-mysqldb ]
-
