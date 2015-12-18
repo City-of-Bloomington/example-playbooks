@@ -11,8 +11,8 @@
 - include: build-apache.yml
   tags: apache
 
-#- include: post-install.yml
-#  tags: apache
+- include: post-install.yml
+  tags: apache
 
 - include: firewall.yml
   tags: [ apache, firewall ]
