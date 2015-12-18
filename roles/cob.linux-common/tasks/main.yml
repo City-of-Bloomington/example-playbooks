@@ -1,6 +1,7 @@
 ---
 # tasks file for cob.linux-common
 - command: apt-get update
+  tags: apt_update
 
 - command: apt-get upgrade -y
 
@@ -9,12 +10,18 @@
   tags: common
   with_items: cob_common_packages
 
-- name: setup Firewall
+- name: Setup Firewall
   include: firewall.yml
   tags: firewall
 
+- name: Setup NTP
+  include: ntp.yml
+  tags: ntp
+
 - name: Setup VIM
   include: vim.yml
+  tags: vim
 
 - name: Setup Nano
   include: nano.yml
+  tags: nano

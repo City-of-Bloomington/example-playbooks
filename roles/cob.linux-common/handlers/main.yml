@@ -1,0 +1,9 @@
+---
+
+- name: restart ntp
+  sudo: yes
+  service:
+    name: ntp 
+    state: restarted
+  when: ntp_service_state == 'started' and not ntp_pkg_state == 'absent'
+
