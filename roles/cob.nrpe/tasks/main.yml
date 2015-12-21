@@ -1,0 +1,21 @@
+---
+- include: pre-checks.yml
+  tags: [ nrpe ]
+ 
+- include: download.yml
+  tags: [ download_nrpe, nrpe ]
+  when: nrpe_makefile.stat.exists == False 
+
+- include: build.yml
+  tags: [ build_nrpe, nrpe ] 
+  when: nrpe_makefile.stat.exists == False 
+
+- include: megaraid-plugin.yml
+  tags: [ megaraid, nrpe ]
+  when: nrpe_megaraid_plugin 
+
+- include: firewall.yml
+  tags: [ firewall, nrpe ]
+
+- include: post-install.yml
+  tags: [ nrpe_post_install, nrpe ]

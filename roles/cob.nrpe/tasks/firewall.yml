@@ -1,0 +1,8 @@
+---
+- name: Allow Nagios to NRPE port
+  ufw:
+    from_ip: '{{ nagios_ip }}'
+    to_port: '{{ nrpe_service_port }}'
+    rule: allow
+    state: enabled
+  

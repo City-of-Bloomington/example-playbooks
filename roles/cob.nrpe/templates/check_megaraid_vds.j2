@@ -1,0 +1,50 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $megacli = "{{ megacli_path }}/megacli";
+my $sudo = "sudo";
+my ($vdname, $vdsize, $vdstate, $vdraidlevel, $vddrives);
+my $return_code = 0;
+
+my $run_command = `$sudo $megacli -LDInfo -lALL -aALL`;
+my @lines = split('\n', $run_command);
+
+my @status_report;
+my $entry = 0;
+
+foreach(@lines) {
+    if ($_ =~ /^name\s+:(.*)/i) { $vdname = $1; $entry = 1;}
+    elsif ($_ =~ /^size\s+:(.*)/i) { $vdsize = $1; }
+    elsif ($_ =~ /^state\s+:\s(.*)/i) { $vdstate = $1; }
+    elsif ($_ =~ /^raid\slevel\s+:\sPrimary-(\d),/i) { $vdraidlevel = $1; }
+    elsif ($_ =~ /^number\sof\sdrives\s+:\s(\d+)/i) { $vddrives = $1; }
+    elsif ($_ =~ /^$/) {
+        if ($entry) {
+            my $report = {};
+            $report->{vdname} = $vdname;
+            $report->{vdsize} = $vdsize;
+            $report->{vdstate} = $vdstate;
+            $report->{vdraidlevel} = $vdraidlevel;
+            $report->{vddrives} = $vddrives;
+            push(@status_report, $report);
+            $entry = 0;
+        }
+    }
+}
+
+foreach my $vd (@status_report) {
+    unless ($vd) { exit 3; }
+    my $status = undef;
+
+    if ($vd->{vdstate} =~ /optimal/i) { $status = "ok"; }
+    else { $status = "critical"; $return_code = 2; }
+
+    printf STDOUT "VD Name:(%-12s", $vd->{vdname} . ")";
+    printf STDOUT "VD Size:(%-15s", $vd->{vdsize} . ")";
+    printf STDOUT "Raid Level:(%-4s", $vd->{vdraidlevel} . ")";
+    printf STDOUT "Drives:(%-4s",  $vd->{vddrives} . ")";
+    printf STDOUT "Status:(" . $status . ")\n";
+}
+
+exit $return_code;
