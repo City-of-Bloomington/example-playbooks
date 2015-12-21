@@ -16,3 +16,6 @@ ntp_service_enabled: yes
 cob_common_packages: [build-essential, autoconf, libssl-dev, emacs, zip, unzip, subversion, git]
 
 nagios_ip: 10.20.20.27
+
+src_dir: /usr/local/src
+
