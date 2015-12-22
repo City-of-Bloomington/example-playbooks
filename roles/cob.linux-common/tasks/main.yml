@@ -1,5 +1,11 @@
 ---
 # tasks file for cob.linux-common
+- name: Make sure Root password is disabled
+  user:
+    name: root
+    update_password: always 
+    password: '!'
+
 - command: apt-get update
   tags: [ apt_update, apt_upgrade ]
 
@@ -12,6 +18,7 @@
   - { regexp: '\"\$\{distro_id\}\:\$\{distro_codename\}-updates\"\;', line: '    "${distro_id}:${distro_codename}-updates";' }
   - { regexp: 'Unattended-Upgrade\:\:Remove-Unused-Dependencies',     line: 'Unattended-Upgrade::Remove-Unused-Dependencies \"true\";' }
   - { regexp: 'Unattended-Upgrade\:\:Automatic-Reboot \"',            line: 'Unattended-Upgrade::Automatic-Reboot \"true\";' }
+  tags: unattended
 
 - name: Install common packages
   action: apt pkg={{ item }} state=present
