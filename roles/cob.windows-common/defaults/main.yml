@@ -1,0 +1,3 @@
+---
+# defaults file for cob.windows-common
+packages_folder: c:\packages
