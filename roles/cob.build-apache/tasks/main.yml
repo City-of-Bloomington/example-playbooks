@@ -12,7 +12,7 @@
   tags: apache
 
 - include: post-install.yml
-  tags: apache
+  tags: [ apache, apache-post-install ]
 
 - include: firewall.yml
   tags: [ apache, firewall ]
