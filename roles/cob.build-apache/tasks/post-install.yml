@@ -1,3 +1,7 @@
+# http://docs.ansible.com/ansible/user_module.html
+- name: Add apache user
+  user: name=apache comment="Apache User" home=/usr/local/apache system=yes shell=/dev/null
+
 # just copying a local template over instead of updating in place:
 - name: Update base httpd.conf
   lineinfile: dest=/usr/local/apache/conf/httpd.conf regexp="{{ item.regexp }}" line="{{ item.line }}"

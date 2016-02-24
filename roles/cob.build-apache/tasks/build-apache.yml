@@ -32,6 +32,3 @@
     - make install
   when: not apache_config_log.stat.exists
 
-# http://docs.ansible.com/ansible/user_module.html
-- name: Add apache user
-  user: name=apache comment="Apache User" home=/usr/local/apache system=yes shell=/dev/null
