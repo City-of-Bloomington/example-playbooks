@@ -1,14 +1,20 @@
 ---
-- name: Download NRPE 
+- name: Download NRPE (Linux)
   get_url: 
-    url: 'http://sourceforge.net/projects/nagios/files/nrpe-2.x/{{ nrpe_version }}/{{ nrpe_version }}.tar.gz/download'
+    url: 'http://packages.bloomington.in.gov/NRPE/{{ nrpe_version }}.tar.gz'
     dest: '{{ src_dir }}'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Uncompress NRPE tar file
   unarchive:
     src: '{{ src_dir }}/{{ nrpe_version }}.tar.gz'
     dest: '{{ src_dir }}'
     copy: no 
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Download NRPE (Windows)
+  get_url:
+    url: 'http://packages.bloomington.in.gov/NRPE/nrpe_nt.tar.gz'
     
 - name: Get Nagios Plugins Version
   shell: curl https://www.nagios.org/downloads/nagios-plugins/ | egrep -o 'nagios-plugins-[0-9.]+.tar.gz<' | egrep -o 'nagios-plugins-[0-9.]+[^.t]'
