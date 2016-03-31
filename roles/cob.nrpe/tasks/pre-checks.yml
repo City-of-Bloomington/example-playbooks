@@ -1,6 +1,0 @@
----
-- name: Check if NRPE is already installed
-  stat: 
-    path: '{{ src_dir }}/{{ nrpe_version }}/Makefile'
-  register: nrpe_makefile
-
