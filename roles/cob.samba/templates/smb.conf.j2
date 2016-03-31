@@ -1,0 +1,76 @@
+[global]
+
+# General Settings
+    follow symlinks = {{ smbconf_follow_symlinks }} 
+    wide links = {{ smbconf_wide_links }} 
+    unix extensions = {{ smbconf_unix_extensions }} 
+    obey pam restrictions = {{ smbconf_obey_pam_restrictions }} 
+    veto oplock files = {{ smbconf_veto_oplock_files }} 
+    disable netbios = {{ smbconf_disable_netbios }} 
+{% if smbconf_enable_recycle_vfs }
+smbconf_vfs_objects = 'recycle'
+{% endif %}
+{% if smbconf_enable_fullaudit_vfs }
+smbconf_vfs_objects = smbconf_vfs_objects + ' full_audit'
+{% endif %}
+    vfs objects = {{ smbconf_vfs_objects }} 
+
+# Active Directory Settings
+    workgroup = {{ smbconf_workgroup }} 
+    security = {{ smbconf_security }} 
+    realm = {{ smbconf_realm }} 
+    kerberos method = {{ smbconf_kerberos_method }} 
+    encrypt passwords = {{ smbconf_encrypt_passwords }} 
+    template shell = {{ smbconf_template_shell }}
+    template homedir = {{ smbconf_template_homedir }} 
+
+# Winbind Settings
+    winbind separator = {{ smbconf_winbind_separator }} 
+    winbind use default domain = {{ smbconf_winbind_use_default_domain }} 
+    winbind enum users = {{ smbconf_winbind_enum_users }}
+    winbind enum groups = {{ smbconf_winbind_enum_groups }} 
+    winbind offline logon = {{ smbconf_winbind_offline_logon }} 
+    winbind max domain connections = {{ smbconf_winbind_max_domain_connections }} 
+    winbind nss info = {{ smbconf_winbind_nss_info }} 
+
+    idmap config * : backend = {{ smbconf_idmap_config_wildcard_backend }} 
+    idmap config * : range = {{ smbconf_idmap_config_wildcard_range }} 
+
+    idmap config COB : backend = {{ smbconf_idmap_config_domain_backend }} 
+    idmap config COB : range = {{ smbconf_idmap_config_domain_range }} 
+    idmap config COB : default = {{ smbconf_idmap_config_domain_default }} 
+    idmap config COB : schema_mode = {{ smbconf_idmap_config_domain_schema }} 
+
+# Cache Settings
+    idmap cache time = {{ smbconf_idmap_cache_time }} 
+    idmap negative cache time = {{ smbconf_idmap_negative_cache_time }} 
+    winbind cache time = {{ smbconf_winbind_cache_time }} 
+
+# Global access/file permissions
+    inherit permissions = {{ smbconf_inherit_permissions }} 
+    map untrusted to domain = {{ smbconf_map_untrusted }} 
+
+{% if smbconf_enable_fullaudit_vfs %}
+# Auditing
+    full_audit:prefix = {{ smbconf_fullaudit_prefix }} 
+    full_audit:success = {{ smbconf_fullaudit_success }} 
+    full_audit:failure = {{ smbconf_fullaudit_failure }}
+    full_audit:facility = {{ smbconf_fullaudit_facility }} 
+    full_audit:priority = {{ smbconf_fullaudit_priority }} 
+{% endif %}
+
+{% if smbconf_enable_recycle_vfs %}
+# Recycle Bin Settings
+    recycle:repository = {{ smbconf_recycle_repository }} 
+    recycle:directory_mode = {{ smbconf_recycle_dir_mode }} 
+    recycle:keeptree = {{ smbconf_recycle_keeptree }} 
+    recycle:versions = {{ smbconf_recycle_versions }} 
+{% endif %}
+
+# Log settings
+    log level = {{ smbconf_log_level }} 
+    log file = {{ smbconf_log_file }}
+    max log size = {{ smbconf_max_log_size }}
+
+# Shares
+    include = {{ smbconf_include_file }} 

@@ -1,0 +1,11 @@
+---
+- include: download.yml
+  tags: [ download_samba ]
+
+- include: install.yml 
+  tags: [ install_samba ]
+
+- include: setup_winbind.yml
+  when: "{{ setup_winbind }}"
+  tags: [ setup_winbind ]
+
