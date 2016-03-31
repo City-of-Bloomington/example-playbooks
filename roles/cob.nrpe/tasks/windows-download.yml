@@ -1,0 +1,5 @@
+---
+- name: Download NRPE (Windows)
+  win_get_url:
+    url: 'http://packages.bloomington.in.gov/NRPE/nrpe_nt.zip'
+    dest: 'C:\Users\Administrator\AppData\Local\Temp\nrpe_nt.zip'
