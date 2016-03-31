@@ -1,0 +1,32 @@
+---
+- name: Check if NRPE is already installed and running
+  raw: 'wmic service NRPE_NT'
+  register: nrpe_service
+
+#- name: Check output
+#  debug: var=nrpe_service
+- name: Stop NRPE service if started
+  win_service:
+    name: NRPE_NT
+    state: stopped
+  when: nrpe_service.stderr != 'No Instance.*' 
+
+- name: Remove NRPE service if installed already
+  raw: 'C:\NRPE_NT\NRPE_NT.exe -u'
+  when: nrpe_service.stderr != 'No Instance.*' 
+
+- name: Unzip NRPE (Windows)
+  win_unzip:
+    src: 'C:\Users\Administrator\AppData\Local\Temp\nrpe_nt.zip'
+    dest: 'C:\NRPE_NT'
+
+# NRPE cannot be installed with NSSM, it has it's on service installation routine.
+- name: Install NRPE_NT as a Windows service
+  raw: 'C:\NRPE_NT\NRPE_NT.exe -i'
+
+- name: Start up NRPE_NT service
+  win_service:
+    name: 'NRPE_NT'
+    start_mode: auto
+    state: started
+
