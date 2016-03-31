@@ -1,3 +1,6 @@
 ---
 # defaults file for cob.windows-common
-packages_folder: c:\packages
+packages_folder: 'c:\packages'
+
+# Chocolatey Repo
+choco_repo: 'http://nuget.org/api/v2/'
