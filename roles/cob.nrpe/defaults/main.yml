@@ -9,7 +9,9 @@ megacli_path: /usr/local/sbin
 # Service Vars
 nrpe_service_address: '0.0.0.0'
 nrpe_allowed_hosts: 'localhost,10.20.20.27'
+nagios_ip: '10.20.20.27'
 
+win_nrpe_service_name: nrpe_nt
 nrpe_service_name: nrpe
 nrpe_service_state: started
 nrpe_service_enabled: yes
