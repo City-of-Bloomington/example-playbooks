@@ -1,7 +1,15 @@
 ---
-- name: restart nrpe 
+- name: restart nrpe (linux)
   service:
     name: "{{ nrpe_service_name }}"
     state: restarted
-  when: nrpe_service_state == "started"
+  when: nrpe_service_state == "started" and ansible_os_family == "Debian"
+  tags: restart_nrpe_linux
+
+- name: restart nrpe (windows)
+  win_service:
+    name: "{{ win_nrpe_service_name }}"
+    state: restarted
+  when: nrpe_service_state == "started" and ansible_os_family == "Windows"
+  tags: restart_nrpe_windows
 
