@@ -1,0 +1,7 @@
+---
+# tasks file for cob.deploy_scripts
+- include: um_scripts_linux.yml
+  when: (ansible_os_family == 'Debian' and install_linux_um_scripts)
+
+- include: sm_scripts_linux.yml
+  when: (ansible_os_family == 'Debian' and install_linux_sm_scripts)

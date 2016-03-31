@@ -1,0 +1,16 @@
+- name: "Retrieve SM scripts from SVN Repo"
+  subversion:
+    repo: "https://bandit.bloomington.in.gov/svn/servers/_scripts/Linux/system_management"
+    dest: /usr/local/sbin/system_management
+    force: yes
+
+- name: "Discover Repo files"
+  shell: ls /usr/local/sbin/system_management
+  register: sms
+
+- name: "Link SM scripts to /usr/local/sbin"
+  file:
+    state: link
+    src: "/usr/local/sbin/system_management/{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
+  with_items: "{{ sms.stdout_lines }}"

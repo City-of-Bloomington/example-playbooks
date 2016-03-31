@@ -1,0 +1,4 @@
+---
+# defaults file for cob.deploy_scripts
+install_linux_um_scripts: true
+install_linux_sm_scripts: true
