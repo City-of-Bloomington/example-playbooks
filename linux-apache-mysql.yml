@@ -1,5 +1,0 @@
-- hosts: linux-apache-mysql
-  become: yes
-  roles:
-    - cob.build-apache
-    - cob.mysql

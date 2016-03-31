@@ -1,4 +1,0 @@
-- hosts: linux-apache
-  become: yes
-  roles:
-    - cob.build-apache
