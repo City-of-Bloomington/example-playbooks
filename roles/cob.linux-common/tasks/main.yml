@@ -6,11 +6,10 @@
     update_password: always 
     password: '!'
 
-- command: apt-get update
-  tags: [ apt_update, apt_upgrade ]
-
-- command: apt-get upgrade -y
-  tags: apt_upgrade
+- apt: 
+    update_cache: yes
+    upgrade: yes
+  tags: [ apt_upgrade ]
 
 - name: Setup Unattended Upgrades
   lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="{{ item.regexp }}" line="{{ item.line }}"
@@ -21,13 +20,15 @@
   tags: unattended
 
 - name: Install common packages
-  action: apt pkg={{ item }} state=present
-  tags: common
+  apt: 
+    name: "{{ item }}" 
+    state: present
+  tags: linux-common
   with_items: cob_common_packages
 
 - name: Setup Firewall
   include: firewall.yml
-  tags: firewall
+  tags: linux-firewall
 
 - name: Setup NTP
   include: ntp.yml
