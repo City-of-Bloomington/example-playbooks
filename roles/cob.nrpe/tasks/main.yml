@@ -1,21 +1,22 @@
 ---
-- include: pre-checks.yml
-  tags: [ nrpe ]
- 
-- include: download.yml
-  tags: [ download_nrpe, nrpe ]
-  when: nrpe_makefile.stat.exists == False 
+- include: linux-download.yml
+  tags: [ download_nrpe ]
+  when: ansible_os_family == 'Linux' 
+
+- include: windows-download.yml
+  tags: [ download_nrpe ]
+  when: ansible_os_family == 'Windows' 
+
+- include: windows-install.yml
+  when: ansible_os_family == 'Windows'
 
 - include: build.yml
-  tags: [ build_nrpe, nrpe ] 
-  when: nrpe_makefile.stat.exists == False 
-
-- include: megaraid-plugin.yml
-  tags: [ megaraid, nrpe ]
-  when: nrpe_megaraid_plugin 
+  tags: [ build_nrpe ] 
+  when: ansible_os_family == 'Linux' 
 
 - include: firewall.yml
-  tags: [ firewall, nrpe ]
+  tags: [ firewall ]
 
 - include: post-install.yml
-  tags: [ nrpe_post_install, nrpe ]
+  tags: [ postinstall_nrpe ]
+  when: ansible_os_family == 'Linux'
