@@ -6,9 +6,16 @@
     update_password: always 
     password: '!'
 
+- name: Make sure champ users is in sudoers file
+  lineinfile:
+    insertafter: 'root\s+ALL=\(ALL\:ALL\)\s+ALL'
+    line: 'champ	ALL=(ALL:ALL) ALL'
+    dest: /etc/sudoers
+    backup: 'yes'
+
 - apt: 
     update_cache: yes
-    upgrade: yes
+    upgrade: safe 
   tags: [ apt_upgrade ]
 
 - name: Setup Unattended Upgrades
@@ -24,7 +31,7 @@
     name: "{{ item }}" 
     state: present
   tags: linux-common
-  with_items: cob_common_packages
+  with_items: "{{ cob_common_packages }}"
 
 - name: Setup Firewall
   include: firewall.yml
