@@ -1,0 +1,7 @@
+- hosts: linux-fileservers
+  become: yes
+  roles:
+    - { role: cob.linux-common }
+    - { role: cob.deploy_scripts }
+    - { role: cob.samba }
+
