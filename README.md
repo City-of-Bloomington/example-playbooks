@@ -1,12 +1,14 @@
 ## City of Bloomington Ansible Playbooks
 
-We currently have instructions for configuring a linux system available here:
+We have instructions for manually configuring a linux system available here:
 
 http://city-of-bloomington.github.io/LinuxInstallHelp/Ubuntu-Installation.html
 
-These playbooks are an attempt at codifying and automating this process using the Ansible system:
+These playbooks are an attempt to codify and automate this process using Ansible:
 
 http://www.ansible.com/how-ansible-works
+
+To use Ansible, you'll need a host/server machine that is used to configure and deploy any number of clients. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host. 
 
 ### Installing Ansible
 
@@ -21,13 +23,16 @@ Create a python virtualenv on the main ansible machine you'll use to configure o
 
 ### Using Ansible
 
-#### Base OS installation on hosts
+#### Base OS installation on clients
 
-This assumes you have already set up the new destination machine with a base OS installation. There are many options for getting that configured:
+Ansible assumes you have already set up the new client/destination machine with a base OS installation. There are many options for getting that configured:
 
-  - This could be completed using Vagrant and VirtualBox. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
-  - I didn't have that, so I just did a manual install on the VM. VMWare does make this very straightforward to do.
-  - This could also be an actual hardware instance of a machine.
+  - Install a base OS on an actual hardware instance of a machine.
+  - Install a base OS on a virtual machine. VirtualBox or VMWare are common options.
+      - VirtualBox is a free and capable solution for creating virtual machines on your local machine.
+      - VMWare is a commercial solution that also makes the base OS install very straightforward.
+  - Use Vagrant to spin up a base virtual machine. Vagrant does have the abilitiy to call a configuration management solution like Ansible automatically. VirtualBox and VMWare are both options here too. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
+  - Use Docker containers? (Still working on this...)
 
 You'll also need a user account that can sudo.
 
@@ -44,13 +49,11 @@ You can also pass the hosts file in as a parameter on the command line.
 
 https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
-generate local keys:
+Generate local keys:
 
     ssh-keygen -t rsa
 
-then transfer the client's public key to the host for the user that can sudo.
-see above for manual transfer process, or use ssh-copy-id
-on OSX, this works:
+then transfer the client's public key to the host for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
 
 https://github.com/beautifulcode/ssh-copy-id-for-OSX
 
@@ -77,7 +80,7 @@ another helpful testing / debug command:
 
     ansible apache -m command -a "/bin/echo hello sammy"
 
-the above steps are also outlined in this guide:
+The above steps are also outlined in this guide:
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-an-ubuntu-12-04-vps
 
