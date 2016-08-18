@@ -1,3 +1,6 @@
+---
+# tasks file for cob.apache
+
 - name: Install apache and related packages
   apt: 
     name: "{{ item }}" 
@@ -30,6 +33,11 @@
 # enables the Apache2 module "wsgi"
 - apache2_module: state=present name=wsgi
 
+#make sure paths exist
+#sudo chgrp -R staff /srv
+#sudo chmod -R g+w /srv
+#sudo chmod -R g+s /srv
+#verify 2750 is equivalent to above:
+- file: path=/srv state=directory group=staff recurse=yes mode=2750
+- file: path=/srv/sites state=directory group=staff recurse=yes mode=2750
 
----
-# tasks file for cob.apache

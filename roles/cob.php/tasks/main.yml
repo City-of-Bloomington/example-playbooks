@@ -1,0 +1,26 @@
+---
+# tasks file for cob.php
+
+- name: Install php and related packages
+  apt: 
+    name: "{{ item }}" 
+    state: present
+  tags: php
+  #defined in defaults/main.yml
+  with_items:
+    - php-common
+    - php-cli
+    - php-json
+    - php-readline
+    - php-mysql
+    - php-mcrypt
+    - php-mbstring
+    - php-gd
+    - php-intl
+    - php-curl
+    - php-ldap
+    - php-xsl
+    - libapache2-mod-php 
+
+# TODO:
+# php.ini => local.ini
