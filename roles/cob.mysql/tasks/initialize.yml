@@ -1,9 +1,10 @@
 - name: Install MySQL
   action: apt pkg={{ item }} state=present
-  tags: apache
+  tags: mysql
   with_items:
   - mysql-client
   - mysql-server
+  - libmysqlclient-dev
 
 - name: Add entries to Mysql configuration file
   lineinfile: dest=/etc/mysql/my.cnf insertafter="skip-external-locking" line={{ item }}

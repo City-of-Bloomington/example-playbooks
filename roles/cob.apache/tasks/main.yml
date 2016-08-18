@@ -1,0 +1,35 @@
+- name: Install apache and related packages
+  apt: 
+    name: "{{ item }}" 
+    state: present
+  tags: apache
+  #defined in defaults/main.yml
+  with_items:
+    - apache2
+
+    - imagemagick
+    - libjpeg-dev
+    - libpng-dev
+    - libxpm-dev
+    - libfreetype6-dev
+    
+    - libncurses5-dev
+    - gettext
+    - libxml2-dev
+    - libxslt-dev
+    - libldap2-dev
+    - libtidy-dev
+    - libcurl4-openssl-dev
+    - libpcre3-dev
+    - libicu-dev
+
+- apache2_module: state=present name=rewrite
+
+- apache2_module: state=present name=alias
+    
+# enables the Apache2 module "wsgi"
+- apache2_module: state=present name=wsgi
+
+
+---
+# tasks file for cob.apache

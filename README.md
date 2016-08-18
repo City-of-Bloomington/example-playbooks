@@ -144,9 +144,14 @@ Be sure to change:
 
 to whatever username you configured on the system.
 
+If the playbook completes successfully, congratulations! You should have a working server configured for the corresponding service. 
 
 
-### Creating new roles
+### Maintenance
+
+As processes are refined, or as operating systems change, it is important to test and adapt these configurations to reflect current requirements. 
+
+#### Creating new roles
 
     ansible-galaxy init cob.apache
 
