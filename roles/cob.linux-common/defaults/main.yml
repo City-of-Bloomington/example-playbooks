@@ -13,7 +13,7 @@ ntp_service_state: started
 ntp_pkg_state: present
 ntp_service_enabled: yes 
 
-cob_common_packages: [build-essential, autoconf, libssl-dev, emacs, zip, unzip, subversion, git]
+cob_common_packages: [build-essential, autoconf, libssl-dev, emacs, zip, unzip, subversion, git, ntp]
 
 nagios_ip: 10.20.20.27
 

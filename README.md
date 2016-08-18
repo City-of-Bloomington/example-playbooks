@@ -34,16 +34,39 @@ Ansible assumes you have already set up the new client/destination machine with 
   - Use Vagrant to spin up a base virtual machine. Vagrant does have the abilitiy to call a configuration management solution like Ansible automatically. VirtualBox and VMWare are both options here too. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
   - Use Docker containers? (Still working on this...)
 
+Make sure that the client machine is accessible via SSH:
+
+    sudo apt-get update
+    sudo apt-get -y install openssh-server
+
+And that the firewall is allowing ssh traffic:
+
+    sudo ufw allow ssh
+
+For VirtualBox, you'll need a "Host-only Adapter" in order to access the machine. When the VM is powered off, add another network interface:
+
+    Virtual Box -> Devices -> Network -> Network Settings...
+    Adapter 2 -> Enable Network Adapter
+    Attached to: Host-only Adapter
+    Name: vboxnet0
+
+Then, when the machine is powered on, do:
+
+    #find all adapters... should be a new one that is unconfigured
+    ip addr
+    #enp0s8 for me
+    sudo vi /etc/network/interfaces
+    #add new section for interface, adapting from lines already there
+
+    # The local network interface
+    auto enp0s8
+    iface enp0s8 inet dhcp
+
+    sudo /etc/init.d/networking restart
+    #check for new ip with:
+    ifconfig
+
 You'll also need a user account that can sudo.
-
-#### Tell ansible about hosts
-
-Configure the different machines that you want to manage with ansible. You can find the IP by looking at ifconfig on VM itself. Then add it to a hosts file:
-
-    echo "192.168.24.151" > hosts.txt
-    export ANSIBLE_INVENTORY=~/path/to/scripts/for/ansible/hosts.txt
-
-You can also pass the hosts file in as a parameter on the command line.
 
 #### Configure SSH public key connections
 
@@ -57,46 +80,63 @@ then transfer the client's public key to the host for the user that can sudo. Se
 
 https://github.com/beautifulcode/ssh-copy-id-for-OSX
 
+    ssh-copy-id username@hostname
 
-#### Ansible configuration defaults (optional)
+You can test this with:
 
-    cd ~/path/to/scripts/for/ansible 
+    ssh username@hostname
+
+If you're not prompted for a password, it worked!
+
+#### Tell ansible about hosts
+
+Configure the client machines that you want to manage with ansible. Find the IP by looking at ifconfig on VM itself, and add it to a hosts file. The default hosts file is "/etc/ansible/hosts", but you can create one anywhere and specify it in an environment variable:
+
+    echo "192.168.24.151" > hosts.txt
+    export ANSIBLE_INVENTORY=~/path/to/scripts/for/ansible/hosts.txt
+
+You can also pass the hosts file in as a parameter ("-i") on the command line.
+
+
+#### Ansible configuration defaults
+
+Ansible expects playbooks, roles, etc (e.g. this repository) to be in /etc/ansible by default.
+
+It is possible to work in a different location. Let ansible know with a local ansible.cfg file:
+
+    cd /path/to/scripts/for/ansible 
     vi ansible.cfg
 
-using this as template:
+For a starting point:
 
-https://raw.githubusercontent.com/ansible/ansible/devel/examples/ansible.cfg
+    curl -O https://raw.githubusercontent.com/ansible/ansible/devel/examples/ansible.cfg
 
+Let ansible know where to find the roles:
+
+    roles_path    = /etc/ansible/roles:/path/to/scripts/for/ansible
+
+Note: This repository is set to ignore the ansible.cfg file.
 
 #### Test Ansible:
 
-hopefully, at this point, if you run:
+At this point, if you run:
 
     ansible all -m ping -i hosts.txt
 
 it should be "success"!
 
-another helpful testing / debug command:
+If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. You can make sure it is available with:
 
-    ansible apache -m command -a "/bin/echo hello sammy"
-
-The above steps are also outlined in this guide:
-
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-an-ubuntu-12-04-vps
+    ansible-playbook playbooks/bootstrap.yml -i hosts.txt --ask-become-pass
 
 
-### Applying configurations
+### Applying system configurations
 
-I have modeled these playbooks closely to the documentation we have for configuring our linux servers. This may not be optimal from Ansible's best practices perspective, but it's a good place to start. So far, we have:
+Ansible uses the concept of "roles" to group configurations for a specific purpose. The roles can be combined to form a playbook to configure a certain type of system.
 
-    ansible-playbook common.yml -i hosts.txt --ask-become-pass
+Pick a playbook, review the configured roles, then give it a go:
 
-    ansible-playbook db.yml -i hosts.txt --ask-become-pass
-
-    ansible-playbook apache.yml -i hosts.txt --ask-become-pass
-
-    ansible-playbook php.yml -i hosts.txt --ask-become-pass
-
+    ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass
 
 Be sure to change:
 
@@ -106,3 +146,16 @@ to whatever username you configured on the system.
 
 
 
+### Creating new roles
+
+    ansible-galaxy init cob.apache
+
+
+
+### References
+
+The above steps were originally inspired by:
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-an-ubuntu-12-04-vps
+
+Thanks!

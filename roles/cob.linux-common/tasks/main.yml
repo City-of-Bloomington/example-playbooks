@@ -13,24 +13,24 @@
     dest: /etc/sudoers
     backup: 'yes'
 
-- apt: 
-    update_cache: yes
-    upgrade: safe 
+#start with just updating the apt cache
+- apt: update_cache=yes
   tags: [ apt_upgrade ]
 
-- name: Setup Unattended Upgrades
-  lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="{{ item.regexp }}" line="{{ item.line }}"
-  with_items:
-  - { regexp: '\"\$\{distro_id\}\:\$\{distro_codename\}-updates\"\;', line: '    "${distro_id}:${distro_codename}-updates";' }
-  - { regexp: 'Unattended-Upgrade\:\:Remove-Unused-Dependencies',     line: 'Unattended-Upgrade::Remove-Unused-Dependencies \"true\";' }
-  - { regexp: 'Unattended-Upgrade\:\:Automatic-Reboot \"',            line: 'Unattended-Upgrade::Automatic-Reboot \"true\";' }
-  tags: unattended
+#get this so we can use it for upgrade:
+- apt: name=aptitude state=present
+  tags: [ apt_upgrade ]
+  
+#http://docs.ansible.com/ansible/apt_module.html
+- apt: upgrade=full
+  tags: [ apt_upgrade ]
 
 - name: Install common packages
   apt: 
     name: "{{ item }}" 
     state: present
   tags: linux-common
+  #defined in defaults/main.yml
   with_items: "{{ cob_common_packages }}"
 
 - name: Setup Firewall
@@ -48,3 +48,16 @@
 - name: Setup Nano
   include: nano.yml
   tags: nano
+
+  # *2016.08.18 10:30:12
+# I'm not sure that we always want to configure automated updates...
+# decision should be based on type of service / server
+#
+# - name: Setup Unattended Upgrades
+#   lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="{{ item.regexp }}" line="{{ item.line }}"
+#   with_items:
+#   - { regexp: '\"\$\{distro_id\}\:\$\{distro_codename\}-updates\"\;', line: '    "${distro_id}:${distro_codename}-updates";' }
+#   - { regexp: 'Unattended-Upgrade\:\:Remove-Unused-Dependencies',     line: 'Unattended-Upgrade::Remove-Unused-Dependencies \"true\";' }
+#   - { regexp: 'Unattended-Upgrade\:\:Automatic-Reboot \"',            line: 'Unattended-Upgrade::Automatic-Reboot \"true\";' }
+#   tags: unattended
+

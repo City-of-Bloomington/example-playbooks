@@ -12,6 +12,7 @@
 ansible.cfg
 host_vars/
 hosts
+hosts.txt
 hosts.dpkg-old
 roles/ANXS.mysql/
 roles/HanXHX.firewall/

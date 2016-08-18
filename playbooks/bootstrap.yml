@@ -1,0 +1,11 @@
+# http://docs.ansible.com/ansible/intro_installation.html
+# http://docs.ansible.com/ansible/raw_module.html
+# Ubuntu 16.04 server did not ship with python2 installed by default
+# check if it exists, and install it if not
+- hosts: all
+  become: yes
+  gather_facts: False
+  tasks:
+    - name: Check for existing python2 and install with raw if not
+      raw: which python; if [ $? -eq 1 ]; then apt-get install -y python; fi;
+  
