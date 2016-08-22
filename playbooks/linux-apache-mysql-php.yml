@@ -4,3 +4,4 @@
     - cob.linux-common
     - cob.apache
     - cob.mysql
+    - cob.php

@@ -30,9 +30,6 @@
 
 - apache2_module: state=present name=alias
     
-# enables the Apache2 module "wsgi"
-- apache2_module: state=present name=wsgi
-
 #make sure paths exist
 #sudo chgrp -R staff /srv
 #sudo chmod -R g+w /srv

@@ -1,6 +1,7 @@
-- hosts: linux-apache-mysql
+- hosts: all
   become: yes
   roles:
     - cob.linux-common
     - cob.apache
     - cob.mysql
+    - cob.shelter_manager

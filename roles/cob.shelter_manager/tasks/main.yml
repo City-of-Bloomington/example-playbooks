@@ -1,0 +1,36 @@
+---
+# tasks file for cob.shelter_manager
+
+- name: Install Animal Shelter Manger requirements
+  apt: 
+    name: "{{ item }}" 
+    state: present
+  tags: asm
+  with_items:
+    #some of these dependencies may have been covered by previous roles
+    
+    - make
+    - python
+    - python-imaging
+    - python-webpy
+    - python-mysqldb
+    - python-psycopg2
+    - imagemagick
+    - wkhtmltopdf
+    - python-requests
+    - python-ndg-httpsclient
+    - python-pyasn1
+    - nodejs
+    - pychecker
+    - python-sphinx
+    - python-sphinx-rtd-theme
+    - texlive-latex-base
+    - mysql-client
+    - mysql-server
+
+
+    
+# enables the Apache2 module "wsgi"
+#- apache2_module: state=present name=wsgi
+
+    
