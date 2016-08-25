@@ -1,40 +1,53 @@
+#as of ubuntu 16.04, default MySQL server is 5.7.13
 - name: Install MySQL
   action: apt pkg={{ item }} state=present
   tags: mysql
   with_items:
-  - mysql-client
-  - mysql-server
-  - libmysqlclient-dev
+    - mysql-client
+    - mysql-server
+    - libmysqlclient-dev
 
 - name: Add entries to Mysql configuration file
   lineinfile: dest=/etc/mysql/my.cnf insertafter="skip-external-locking" line={{ item }}
   with_items:
-  - 'innodb_file_per_table=1'
-  - 'default_storage_engine=InnoDB'
-  - 'character_set_server=utf8'
+    - '[mysqld]'
+    - 'innodb_file_per_table=1'
+    - 'default_storage_engine=InnoDB'
+    - 'character_set_server=utf8'
   notify:
   - restart mysql
   tags: mysql
 
-- name: stop mysql
-  service: name=mysql state=stopped
-  tags: mysql
+- name: reset mysql 5.6+ default password (no longer empty)
+  shell: mysql_secret=$(sudo grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}') && mysqladmin -u  --password=${mysql_secret} password
 
-- name: Remove old databases
-  command: rm -Rf /var/lib/mysql
-  tags: mysql
+# Removing will require re-creating the ubuntu user for apt updates
+# It may be possible to automate these steps
+#sudo service mysql stop
+# - name: stop mysql
+#   service: name=mysql state=stopped
+#   tags: mysql
 
-- name: Initialize databases
-  command: /usr/bin/mysql_install_db
-  tags: mysql
+# - name: Remove old databases
+#   command: rm -Rf /var/lib/mysql
+#   tags: mysql
 
-- name: Update database permissions
-  command: chown -R mysql /var/lib/mysql
-  tags: mysql
+#- file: path=/var/lib/mysql state=directory owner=mysql group=mysql mode=2700
+  
+#[WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize
+# - name: Initialize databases
+#   command: /usr/bin/mysql_install_db
+#   tags: mysql
 
-- name: Start Mysql Service
-  service: name=mysql state=started enabled=yes
-  tags: mysql
+# MySQL 5.7 secures the root user by default
+
+# - name: Initialize databases
+#   command: mysqld --initialize
+#   tags: mysql
+  
+# - name: Start Mysql Service
+#   service: name=mysql state=started enabled=yes
+#   tags: mysql
 
 
     #TODO:

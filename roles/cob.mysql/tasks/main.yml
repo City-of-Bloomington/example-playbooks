@@ -1,3 +1,6 @@
+# see also notes in:
+# playbooks/shelter_manager.yml
+
 - name: Check if MySQL Server is already install
   command: dpkg-query -W mysql-server
   register: mysql_installed
@@ -5,4 +8,6 @@
   changed_when: mysql_installed.rc == 1
 
 - include: initialize.yml
-  when: mysql_installed.rc == 1
+   when: mysql_installed.rc == 1
+
+#- include: initialize.yml

@@ -76,7 +76,7 @@ Generate local keys:
 
     ssh-keygen -t rsa
 
-then transfer the client's public key to the host for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
+then transfer the hosts's public key to the client/destination for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
 
 https://github.com/beautifulcode/ssh-copy-id-for-OSX
 
@@ -145,6 +145,15 @@ Be sure to change:
 to whatever username you configured on the system.
 
 If the playbook completes successfully, congratulations! You should have a working server configured for the corresponding service. 
+
+For playbooks that utilize passwords in the vault, use this:
+
+    ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass --ask-vault-pass
+
+For more about vault:
+
+[Variables and Vaults](group_vars/README.md)
+
 
 
 ### Maintenance
