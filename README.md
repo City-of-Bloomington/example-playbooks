@@ -138,21 +138,16 @@ Pick a playbook, review the configured roles, then give it a go:
 
     ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass
 
-Be sure to change:
+If the playbook completes successfully, *congratulations!* You should have a working server configured for the corresponding service. 
 
-    remote_user: username
-
-to whatever username you configured on the system.
-
-If the playbook completes successfully, congratulations! You should have a working server configured for the corresponding service. 
 
 For playbooks that utilize passwords in the vault, use this:
 
     ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass --ask-vault-pass
 
-For more about vault:
+For details about the vault:
 
-[Variables and Vaults](group_vars/README.md)
+[Variables and Vaults](group_vars/)
 
 
 

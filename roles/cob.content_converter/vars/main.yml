@@ -1,0 +1,11 @@
+---
+# vars file for cob.content_converter
+
+converter_path: /srv/content_converter
+
+#these should be defined elsewhere (these are not sane defaults)
+#converter_db_name: converter
+#converter_db_username: user
+#converter_db_password: pass
+
+apache_config: /etc/apache2/sites-available/000-default.conf

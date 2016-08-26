@@ -46,6 +46,8 @@
 - git: repo=http://git.sheltermanager.com/asm3.git dest='{{ asm_path }}'
   when: not check.stat.exists
 
+- file: path={{ asm_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
+  
 #mysql config should be handled earlier now by mysql role directly
   
 - template: src=sitedefs.py dest='{{ asm_path }}/src'
