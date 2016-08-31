@@ -6,6 +6,7 @@ converter_path: /srv/content_converter
 #relative symbolic links in content_converter 
 #expect fn1 to be at the same level as converter_path
 fn1_path: /srv/factory-number-one
+#(this is also defined in cob.fn1 role)
 
 #these should be defined elsewhere (these are not sane defaults)
 #converter_db_name: converter

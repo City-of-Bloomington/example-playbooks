@@ -18,8 +18,6 @@
   
 - npm: name=gulp-cli global=yes state=latest
     
-- pip: name=jsbeautifier
-
 - name: check if repository has already been checked out
   stat: path='{{ fn1_path }}'
   register: check

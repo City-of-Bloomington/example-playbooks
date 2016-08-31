@@ -84,3 +84,13 @@
 - name: Allow debugging server
   ufw: rule=allow port=5000
 
+# initialize the database by running migrations
+# do initial build
+- shell: python manage.py migrate
+  args:
+    chdir: "{{ converter_path }}"
+
+# make departments
+- shell: python make_departments.py
+  args:
+    chdir: "{{ converter_path }}/scripts"
