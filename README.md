@@ -1,14 +1,10 @@
 ## City of Bloomington Ansible Playbooks
 
-We have instructions for manually configuring a linux system available here:
-
-http://city-of-bloomington.github.io/LinuxInstallHelp/Ubuntu-Installation.html
-
-These playbooks are an attempt to codify and automate this process using Ansible:
+Configuring a machine to host services can be challenging. These playbooks are an attempt to codify and automate this process using Ansible. Ansible is a configuration management system. For more information about Ansible, see:
 
 http://www.ansible.com/how-ansible-works
 
-To use Ansible, you'll need a host/server machine that is used to configure and deploy any number of clients. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host. 
+To use Ansible, you'll need a *nix based host/server machine that is used to configure and deploy any number of clients and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host. 
 
 ### Installing Ansible
 
@@ -20,6 +16,7 @@ Create a python virtualenv on the main ansible machine you'll use to configure o
     #should enable virtualenv
 
     pip install ansible
+
 
 ### Using Ansible
 
@@ -33,15 +30,6 @@ Ansible assumes you have already set up the new client/destination machine with 
       - VMWare is a commercial solution that also makes the base OS install very straightforward.
   - Use Vagrant to spin up a base virtual machine. Vagrant does have the abilitiy to call a configuration management solution like Ansible automatically. VirtualBox and VMWare are both options here too. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
   - Use Docker containers? (Still working on this...)
-
-Make sure that the client machine is accessible via SSH:
-
-    sudo apt-get update
-    sudo apt-get -y install openssh-server
-
-And that the firewall is allowing ssh traffic:
-
-    sudo ufw allow ssh
 
 For VirtualBox, you'll need a "Host-only Adapter" in order to access the machine. When the VM is powered off, add another network interface:
 
@@ -66,7 +54,13 @@ Then, when the machine is powered on, do:
     #check for new ip with:
     ifconfig
 
+Typically, openssh-server is available on server installations by default. Make sure that the client machine is accessible via SSH:
+
+    sudo apt-get update
+    sudo apt-get -y install openssh-server
+
 You'll also need a user account that can sudo.
+
 
 #### Configure SSH public key connections
 
@@ -129,6 +123,7 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
     ansible-playbook playbooks/bootstrap.yml -i hosts.txt --ask-become-pass
 
+If you're using a VM, this is a good chance to take a snapshot of your client so it's easy to revert back to this point for testing. 
 
 ### Applying system configurations
 
@@ -163,7 +158,14 @@ As processes are refined, or as operating systems change, it is important to tes
 
 ### References
 
-The above steps were originally inspired by:
+Previously, we maintained instructions for manually configuring a linux system available here:
+
+http://city-of-bloomington.github.io/LinuxInstallHelp/Ubuntu-Installation.html
+
+However, these may grow out of date. This repository is a replacement for those.
+
+
+This was a helpful guide for getting ansible configured initially:
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-an-ubuntu-12-04-vps
 

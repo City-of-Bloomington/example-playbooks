@@ -30,8 +30,16 @@
     name: "{{ item }}" 
     state: present
   tags: linux-common
-  #defined in defaults/main.yml
-  with_items: "{{ cob_common_packages }}"
+  with_items:
+    - build-essential
+    - autoconf
+    - libssl-dev
+    - emacs
+    - zip
+    - unzip
+    - subversion
+    - git
+    - ntp
 
 - name: Setup Firewall
   include: firewall.yml
@@ -49,7 +57,7 @@
   include: nano.yml
   tags: nano
 
-  # *2016.08.18 10:30:12
+# *2016.08.18 10:30:12
 # I'm not sure that we always want to configure automated updates...
 # decision should be based on type of service / server
 #

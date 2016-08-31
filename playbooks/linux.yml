@@ -1,4 +1,4 @@
-- hosts: linux 
+- hosts: all
   become: yes
   roles:
     - cob.linux-common 
