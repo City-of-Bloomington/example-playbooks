@@ -2,54 +2,43 @@
 # tasks file for cob.apache
 
 - name: Install apache and related packages
-  apt: 
-    name: "{{ item }}" 
+  apt:
+    name: "{{ item }}"
     state: present
   tags: apache
-  #defined in defaults/main.yml
+  # defined in defaults/main.yml
   with_items:
     - apache2
+    - libapache2-mod-wsgi
 
-    - imagemagick
-    - libjpeg-dev
-    - libpng-dev
-    - libxpm-dev
-    - libfreetype6-dev
-    
-    - libncurses5-dev
-    - gettext
-    - libxml2-dev
-    - libxslt-dev
-    - libldap2-dev
-    - libtidy-dev
-    - libcurl4-openssl-dev
-    - libpcre3-dev
-    - libicu-dev
+- name: Add mod_rewrite configuration
+  copy: src=rewrite.conf dest=/etc/apache2/mods-available/rewrite.conf force=no
 
-    #for python web apps
-    - libapache2-mod-wsgi    
-    
 - apache2_module: state=present name=rewrite
-
 - apache2_module: state=present name=alias
-
-# enables the Apache2 module "wsgi"
 - apache2_module: state=present name=wsgi
 
-  
-#make sure paths exist
-#sudo chgrp -R staff /srv
-#sudo chmod -R g+w /srv
-#sudo chmod -R g+s /srv
-#verify 2750 is equivalent to above:
-#- file: path=/srv state=directory group=staff recurse=yes mode=2770
-- file: path=/srv state=directory owner=www-data group=staff mode=2770
-- file: path=/srv/sites state=directory owner=www-data group=staff recurse=yes mode=2770
+- file: path=/srv/sites/master state=directory
+- file: path=/srv              state=directory owner=www-data group=staff mode=2770 recurse=yes
+- command: cp /var/www/html/index.html /srv/sites/master
 
-#TODO:
+- name: Update default configuration
+  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
+  with_items:
+  - { regexp: '\<VirtualHost',     line: '#<VirtualHost *:80>' }
+  - { regexp: 'DocumentRoot',      line: '    DocumentRoot /srv/sites/master' }
+  - { regexp: '\<\/VirtualHost\>', line: '#</VirtualHost>' }
+
+# TODO
+# Still need to edit the main configuration file to give apache permission to
+# the /srv/sites directory
+
+
+- service: name=apache2 state=restarted
+
+# TODO:
 #add users to staff group, or add server to domain for Active Directory accounts
-- user: name={{ ansible_ssh_user }} groups=staff,sudo
+- user: name={{ ansible_ssh_user }} groups=staff
 
 - name: Configure the firewall (http)
   ufw: rule=allow port=http
-

@@ -4,7 +4,7 @@ Configuring a machine to host services can be challenging. These playbooks are a
 
 http://www.ansible.com/how-ansible-works
 
-To use Ansible, you'll need a *nix based host/server machine that is used to configure and deploy any number of clients and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host. 
+To use Ansible, you'll need a *nix based host/server machine that is used to configure and deploy any number of clients and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host.
 
 ### Installing Ansible
 
@@ -59,6 +59,12 @@ Typically, openssh-server is available on server installations by default. Make 
     sudo apt-get update
     sudo apt-get -y install openssh-server
 
+Ansible requires Python installed on the client machine, as well:
+
+```bash
+sudo apt-get install python
+```
+
 You'll also need a user account that can sudo.
 
 
@@ -98,7 +104,7 @@ Ansible expects playbooks, roles, etc (e.g. this repository) to be in /etc/ansib
 
 It is possible to work in a different location. Let ansible know with a local ansible.cfg file:
 
-    cd /path/to/scripts/for/ansible 
+    cd /path/to/scripts/for/ansible
     vi ansible.cfg
 
 For a starting point:
@@ -123,7 +129,7 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
     ansible-playbook playbooks/bootstrap.yml -i hosts.txt --ask-become-pass
 
-If you're using a VM, this is a good chance to take a snapshot of your client so it's easy to revert back to this point for testing. 
+If you're using a VM, this is a good chance to take a snapshot of your client so it's easy to revert back to this point for testing.
 
 ### Applying system configurations
 
@@ -133,7 +139,7 @@ Pick a playbook, review the configured roles, then give it a go:
 
     ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass
 
-If the playbook completes successfully, *congratulations!* You should have a working server configured for the corresponding service. 
+If the playbook completes successfully, *congratulations!* You should have a working server configured for the corresponding service.
 
 
 For playbooks that utilize passwords in the vault, use this:
@@ -148,7 +154,7 @@ For details about the vault:
 
 ### Maintenance
 
-As processes are refined, or as operating systems change, it is important to test and adapt these configurations to reflect current requirements. 
+As processes are refined, or as operating systems change, it is important to test and adapt these configurations to reflect current requirements.
 
 #### Creating new roles
 
