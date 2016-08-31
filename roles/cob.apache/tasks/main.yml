@@ -23,16 +23,12 @@
 - command: cp /var/www/html/index.html /srv/sites/master
 
 - name: Update default configuration
-  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
-  with_items:
-  - { regexp: '\<VirtualHost',     line: '#<VirtualHost *:80>' }
-  - { regexp: 'DocumentRoot',      line: '    DocumentRoot /srv/sites/master' }
-  - { regexp: '\<\/VirtualHost\>', line: '#</VirtualHost>' }
-
-# TODO
-# Still need to edit the main configuration file to give apache permission to
-# the /srv/sites directory
-
+  template:
+    src: 000-default.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - service: name=apache2 state=restarted
 

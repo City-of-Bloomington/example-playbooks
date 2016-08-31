@@ -1,0 +1,10 @@
+ServerAdmin {{ apache_serveradmin }}
+DocumentRoot /srv/sites/master
+<Directory  "/srv/sites/master">
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
