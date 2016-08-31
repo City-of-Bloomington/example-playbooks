@@ -19,6 +19,9 @@
     
     - libapache2-mod-wsgi    
 
+# enables the Apache2 module "wsgi"
+- apache2_module: state=present name=wsgi
+
 - name: Upgrade pip
   pip: name=pip state=latest
   
@@ -32,9 +35,6 @@
 - name: pip install django
   pip: name=django version=1.9.7    
 
-# enables the Apache2 module "wsgi"
-- apache2_module: state=present name=wsgi
-
 - name: check if repository has already been checked out
   stat: path='{{ converter_path }}'
   register: check
@@ -42,12 +42,22 @@
 - git: repo=https://github.com/City-of-Bloomington/content-converter.git dest='{{ converter_path }}'
   when: not check.stat.exists
 
-- file: path={{ converter_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
+#TODO:
+# this won't work if the path is a directory on a VM shared with host
+# way to check for that?
+#- file: path={{ converter_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
+
   
 #mysql config should be handled earlier now by mysql role directly
-
 - template: src=mysql.cnf dest='{{ converter_path }}/converter/mysql.cnf'
   tags: converter
+
+#update the settings.py file to use the path to mysql.cnf
+# Fully quoted because of the ': ' on the line. See the Gotchas in the YAML docs.
+- lineinfile:
+    dest: '{{ converter_path }}/converter/settings.py'
+    regexp: 'read_default_file'
+    line: "            'read_default_file': '{{ converter_path }}/converter/mysql.cnf',"
   
 #check if backup of 000-default.conf exists
 #create a copy if not

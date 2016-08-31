@@ -1,0 +1,54 @@
+---
+# tasks file for cob.fn1
+- name: Install Factory Number One dependencies.
+  action: apt pkg={{ item }} state=present
+  with_items:
+    - nodejs
+    - npm
+
+#the version of node installed by packages is typically out of date
+- shell: npm cache clean -f
+
+#sudo npm install -g n
+- npm: name=n global=yes
+
+- shell: n stable
+
+- npm: name=npm global=yes state=latest
+  
+- npm: name=gulp-cli global=yes state=latest
+    
+- pip: name=jsbeautifier
+
+- name: check if repository has already been checked out
+  stat: path='{{ fn1_path }}'
+  register: check
+
+- git: repo=https://github.com/City-of-Bloomington/factory-number-one.git version=refactor dest='{{ fn1_path }}'
+  when: not check.stat.exists
+
+- file: path={{ fn1_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
+
+# get any other dependencies
+# (takes a while!!)
+
+# either need to run as an unprivileged user (non-root)
+# or need to supply --unsafe_perm flag
+# node-sass checks this
+# https://github.com/sass/node-sass/blob/master/TROUBLESHOOTING.md#cannot-find-module-rootinstalljs
+
+#- shell: npm install
+#  args:
+#    chdir: "{{ fn1_path }}"
+- npm: path="{{ fn1_path }}"
+  become_user: "{{ ansible_ssh_user }}"
+#  unsafe_perm: yes
+
+# do initial build
+- shell: gulp
+  args:
+    chdir: "{{ fn1_path }}"
+
+
+
+    

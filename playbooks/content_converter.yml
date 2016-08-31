@@ -47,9 +47,11 @@
     # might be due to the version of ansible?
 
     # removing mysql packages and data directory allows it to work again
-    # sudo apt-get remove mysql-client mysql-server
+    # sudo apt-get remove -y mysql-client mysql-server
     # sudo rm -rf /var/lib/mysql
 
     #- geerlingguy.mysql            
+    
+    - cob.fn1
     
     - cob.content_converter

@@ -1,0 +1,6 @@
+---
+# vars file for cob.fn1
+
+#relative symbolic links in other packages
+#expect fn1 to be at the same level as other packages
+fn1_path: /srv/factory-number-one
