@@ -9,7 +9,6 @@
 .Spotlight-V100*
 .fseventsd*
 *.tar.gz
-ansible.cfg
 host_vars/
 hosts
 hosts.txt
