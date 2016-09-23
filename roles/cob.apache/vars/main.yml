@@ -1,0 +1,5 @@
+---
+# vars file for cob.apache
+
+apache_serveradmin: example@domain.com
+

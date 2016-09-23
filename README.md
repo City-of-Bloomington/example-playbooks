@@ -8,6 +8,14 @@ To use Ansible, you'll need a *nix based host/server machine that is used to con
 
 ### Installing Ansible
 
+Full up-to-date details for installing an ansible control machine are available here:
+
+http://docs.ansible.com/ansible/intro_installation.html
+
+Be sure to install any missing requirements:
+
+    sudo apt-get install build-essential libssl-dev libffi-dev python-dev
+
 Create a python virtualenv on the main ansible machine you'll use to configure other machines:
 
 [Virtualenv Setup](virtualenv.md)
@@ -17,8 +25,7 @@ Create a python virtualenv on the main ansible machine you'll use to configure o
 
     pip install ansible
 
-
-### Using Ansible
+### Configure Client Machines
 
 #### Base OS installation on clients
 
@@ -88,6 +95,9 @@ You can test this with:
 
 If you're not prompted for a password, it worked!
 
+
+### Ansible Configuration
+
 #### Tell ansible about hosts
 
 Configure the client machines that you want to manage with ansible. Find the IP by looking at ifconfig on VM itself, and add it to a hosts file. The default hosts file is "/etc/ansible/hosts", but you can create one anywhere and specify it in an environment variable:
@@ -131,7 +141,9 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
 If you're using a VM, this is a good chance to take a snapshot of your client so it's easy to revert back to this point for testing.
 
-### Applying system configurations
+### Using Ansible
+
+#### Applying system configurations
 
 Ansible uses the concept of "roles" to group configurations for a specific purpose. The roles can be combined to form a playbook to configure a certain type of system.
 
@@ -152,14 +164,34 @@ For details about the vault:
 
 
 
-### Maintenance
+#### Ongoing Maintenance
 
-As processes are refined, or as operating systems change, it is important to test and adapt these configurations to reflect current requirements.
+As processes are refined, or as operating systems change, it is important to test and adapt the corresponding playbooks and roles to reflect current requirements.
 
-#### Creating new roles
+To create new roles:
 
     ansible-galaxy init cob.apache
 
+
+### External Roles
+
+Some of our playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
+
+As an example, configuring MySQL:
+
+https://github.com/geerlingguy/ansible-role-mysql  
+
+This is included in the playbook with:
+
+    - geerlingguy.mysql        
+
+This requires using ansible-galaxy to pull down the role first:
+
+    sudo ansible-galaxy install geerlingguy.mysql
+
+This results in:
+
+    "extracting geerlingguy.mysql to /etc/ansible/roles/geerlingguy.mysql" 
 
 
 ### References

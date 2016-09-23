@@ -34,7 +34,7 @@
 
 # TODO:
 #add users to staff group, or add server to domain for Active Directory accounts
-- user: name={{ ansible_ssh_user }} groups=staff
+- user: name={{ ansible_ssh_user }} groups=staff,sudo
 
 - name: Configure the firewall (http)
   ufw: rule=allow port=http

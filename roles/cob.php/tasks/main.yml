@@ -24,3 +24,10 @@
 
 # TODO:
 # php.ini => local.ini
+
+
+# install composer for any PHP dependency managment tasks:
+
+# curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
+# https://github.com/geerlingguy/ansible-role-composer

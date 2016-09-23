@@ -14,15 +14,18 @@
     backup: 'yes'
 
 #start with just updating the apt cache
-- apt: update_cache=yes
+- name: Update apt cache
+  apt: update_cache=yes
   tags: [ apt_upgrade ]
 
 #get this so we can use it for upgrade:
-- apt: name=aptitude state=present
+- name: Make sure aptitude is availabe for full upgrade
+  apt: name=aptitude state=present
   tags: [ apt_upgrade ]
   
 #http://docs.ansible.com/ansible/apt_module.html
-- apt: upgrade=full
+- name: Full upgrade
+  apt: upgrade=full
   tags: [ apt_upgrade ]
 
 - name: Install common packages

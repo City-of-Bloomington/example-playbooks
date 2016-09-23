@@ -7,16 +7,21 @@
     - npm
 
 #the version of node installed by packages is typically out of date
-- shell: npm cache clean -f
+- name: clear npm cache
+  shell: npm cache clean -f
 
 #sudo npm install -g n
-- npm: name=n global=yes
+- name: Install node via npm globally
+  npm: name=n global=yes
 
-- shell: n stable
+- name: Update node to the latest stable version
+  shell: n stable
 
-- npm: name=npm global=yes state=latest
+- name: Update npm to the latest version
+  npm: name=npm global=yes state=latest
   
-- npm: name=gulp-cli global=yes state=latest
+- name: Install gulp-cli globally
+  npm: name=gulp-cli global=yes state=latest
     
 - name: check if repository has already been checked out
   stat: path='{{ fn1_path }}'
