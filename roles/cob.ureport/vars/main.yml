@@ -2,6 +2,7 @@
 # vars file for cob.ureport
 
 ureport_path: /srv/sites/ureport
+ureport_base: ureport
 
 #relative symbolic links in ureport 
 #expect fn1 to be at the same level as ureport_path
@@ -13,4 +14,5 @@ fn1_path: /srv/factory-number-one
 #ureport_db_username: user
 #ureport_db_password: pass
 
-apache_config: /etc/apache2/sites-available/000-default.conf
+#apache_config: /etc/apache2/sites-available/000-default.conf
+apache_config: /etc/apache2/sites-available/ureport.conf

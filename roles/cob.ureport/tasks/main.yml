@@ -7,6 +7,11 @@
 # this sets up the environment for development
 # tarball would include many of these dependencies
 
+# this is useful for debugging, but may not be necessary for production
+- name: allow access to solr
+  ufw: rule=allow port=8983
+
+
 - name: check if repository has already been checked out
   stat: path='{{ ureport_path }}'
   register: check
@@ -20,21 +25,42 @@
 - file: path={{ ureport_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
 
 
-#check if backup of 000-default.conf exists
-#create a copy if not
+- name: check if apached config already exists
+  stat: path={{ apache_config }}
+  register: original
+  
+# check if backup of apache_config exists
 # if it already exists, we won't move it again
 - name: check if apached config backup already exists
   stat: path={{ apache_config }}.bkup
-  register: check
+  register: backup
 
-#note that "copy" in ansible copies from ansible host to client
+#note that "copy" command in ansible copies from ansible host to client
 #one machine to the other
 #here we just want to do the copy only on the client 
 - name: Make a backup copy of apache config file
   shell: cp {{ apache_config }} {{ apache_config }}.bkup
-  when: not check.stat.exists
+  when: original.stat.exists and not backup.stat.exists
 
-- template: src=000-default.conf dest={{ apache_config }}
+- template: src=ureport.conf dest={{ apache_config }}
+  notify:
+    - restart apache
+  tags: ureport
+
+- name: a2ensite ureport
+  command: a2ensite ureport
+  notify:
+    - restart apache
+  
+- composer: command=install working_dir={{ ureport_path }}/crm
+
+- name: Run the build script
+  shell: ./build.sh
+  args:
+    chdir: "{{ ureport_path }}"
+
+- name: configure uReport application
+  template: src=site_config.inc dest={{ ureport_path }}/crm/data/
   notify:
     - restart apache
   tags: ureport
@@ -42,16 +68,10 @@
 #TODO:
 # consider how to make this idempotent... script checks for existence of tables?
 # etc
-# - name: Initialize the database 
-#   shell: mysql -u {{ ureport_db_username }} -p{{ ureport_db_password }} {{ ureport_db_name }} < mysql.sql
-#   args:
-#     chdir: "{{ ureport_path }}/crm/scripts"
-    
-- composer: command=install working_dir={{ ureport_path }}/crm
-
-- name: Run the build script
-  shell: build.sh
+- name: Initialize the database 
+  shell: mysql -u {{ ureport_db_username }} -p{{ ureport_db_password }} {{ ureport_db_name }} < mysql.sql
   args:
-    chdir: "{{ ureport_path }}"
+    chdir: "{{ ureport_path }}/crm/scripts"
+   
 
-  
+    

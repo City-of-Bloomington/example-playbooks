@@ -19,7 +19,13 @@
         host: "%"
         password: "{{ ureport_db_password }}"
         priv: "{{ ureport_db_name }}.*:ALL"
-          
+
+    #https://github.com/geerlingguy/ansible-role-solr
+    solr_version: "5.5.3"
+    solr_home: /srv/solr
+    solr_cores:
+      - ureport
+      
   roles:
     - cob.linux-common
 
@@ -54,3 +60,5 @@
     - cob.fn1
 
     - cob.ureport
+
+    
