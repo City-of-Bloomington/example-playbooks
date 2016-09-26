@@ -9,17 +9,25 @@
   # defined in defaults/main.yml
   with_items:
     - apache2
-    - libapache2-mod-wsgi
 
 - name: Add mod_rewrite configuration
   copy: src=rewrite.conf dest=/etc/apache2/mods-available/rewrite.conf force=no
 
 - apache2_module: state=present name=rewrite
 - apache2_module: state=present name=alias
-- apache2_module: state=present name=wsgi
 
-- file: path=/srv/sites/master state=directory
-- file: path=/srv              state=directory owner=www-data group=staff mode=2770 recurse=yes
+# recurse=yes allows similar functionality to mkdir -p
+- file: path=/srv/sites/master state=directory recurse=yes
+
+# if putting things like /srv/solr directory in /srv
+# then solr user needs to be able to at least execute permissions to chdir
+- file: path=/srv              state=directory owner=www-data group=staff mode=2775
+
+# need to be careful with recurse here
+# especially for things like solr data dir that expects to be owned by solr user
+- file: path=/srv/sites              state=directory owner=www-data group=staff mode=2770 recurse=yes
+
+
 - command: cp /var/www/html/index.html /srv/sites/master
 
 - name: Update default configuration

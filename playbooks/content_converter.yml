@@ -25,6 +25,8 @@
 
     - cob.apache
     
+    - cob.python
+    
     # MYSQL / DB:
     # ------------------
     # Configuring mysql with ansible is no small task.
@@ -52,7 +54,7 @@
     # sudo rm -rf /var/lib/mysql
 
     #- geerlingguy.mysql            
-    
+
     - cob.fn1
     
     - cob.content_converter

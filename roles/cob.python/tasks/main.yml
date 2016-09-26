@@ -1,0 +1,21 @@
+---
+# tasks file for cob.python
+
+# python is usually already installed,
+# but there are often additional modules that can help
+- name: Install python and related packages
+  apt: 
+    name: "{{ item }}" 
+    state: present
+  tags: python
+  with_items:
+    - python-pip
+    - python2.7-dev
+    - libapache2-mod-wsgi
+
+- name: Enable WSGI module in apache
+  apache2_module: state=present name=wsgi
+
+- name: Upgrade pip
+  pip: name=pip state=latest
+  
