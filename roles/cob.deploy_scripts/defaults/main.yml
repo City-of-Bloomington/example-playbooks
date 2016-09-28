@@ -1,4 +1,25 @@
 ---
 # defaults file for cob.deploy_scripts
-install_linux_um_scripts: true
-install_linux_sm_scripts: true
+script_dependencies: []
+
+script_repos:
+  - name: um_script_repo
+    http_repo: 
+    dest: /usr/local/sbin/user_management
+
+  - name: sm_script_repo
+    http_repo: 
+    dest: /usr/local/sbin/system_management
+
+usersetup_home_group: nogroup
+usersetup_home_dir_perms: 2770 
+usersetup_home_file_perms: 0664 
+usersetup_skeldir: /etc/skel 
+
+usersetup_sendmail: no
+usersetup_account_managers: []
+usersetup_required_groups: []
+usersetup_create_folders: []
+usersetup_copy_files: []
+usersetup_modules: []
+

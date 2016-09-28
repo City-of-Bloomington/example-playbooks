@@ -1,0 +1,38 @@
+---
+- name: "Check if Repos already are checkout"
+  stat:
+    path: "{{ item.dest }}"
+  register: rc
+  with_items: "{{ script_repos }}"
+
+- name: "Remove Repos if already exists"
+  file:
+    path: "{{ item.stat.path }}"
+    state: absent
+  when: "{{ item.stat.exists }}"
+  with_items: "{{ rc.results }}"
+
+- name: "Retrieve scripts from HTTP SVN Repo"
+  subversion:
+    repo: "{{ item.http_repo }}" 
+    dest: "{{ item.dest }}"
+    force: yes
+  with_items: "{{ script_repos }}"
+
+- name: "Link scripts to /usr/local/sbin"
+  shell: ln -fs {{ item.dest }}/* /usr/local/sbin
+  with_items: "{{ script_repos }}"
+
+- name: "Securing script directories"
+  shell: find "{{ item.dest }}" -type d -exec chmod 2770 {} \;
+  with_items:
+    - "{{ script_repos }}" 
+    - dest: '/usr/local/sbin'
+    
+- name: "Securing script files"
+  shell: find "{{ item.dest }}" -type f -exec chmod 0770 {} \;
+  with_items:
+    - "{{ script_repos }}" 
+    - dest: '/usr/local/sbin'
+  
+  
