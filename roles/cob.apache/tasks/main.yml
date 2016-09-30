@@ -25,8 +25,7 @@
 
 # need to be careful with recurse here
 # especially for things like solr data dir that expects to be owned by solr user
-- file: path=/srv/sites              state=directory owner=www-data group=staff mode=2770 recurse=yes
-
+- file: path=/srv/sites        state=directory owner=www-data group=staff mode=2770 recurse=yes
 
 - command: cp /var/www/html/index.html /srv/sites/master
 
@@ -42,7 +41,7 @@
 
 # TODO:
 #add users to staff group, or add server to domain for Active Directory accounts
-- user: name={{ ansible_ssh_user }} groups=staff,sudo
+- user: name={{ ansible_user }} groups=staff
 
 - name: Configure the firewall (http)
   ufw: rule=allow port=http

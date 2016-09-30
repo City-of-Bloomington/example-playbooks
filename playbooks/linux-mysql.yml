@@ -1,4 +1,5 @@
 - hosts: linux-mysql
   become: yes
   roles:
+    - cob.linux-common
     - cob.mysql

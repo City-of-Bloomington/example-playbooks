@@ -3,15 +3,8 @@
 - name: Make sure Root password is disabled
   user:
     name: root
-    update_password: always 
+    update_password: always
     password: '!'
-
-- name: Make sure champ users is in sudoers file
-  lineinfile:
-    insertafter: 'root\s+ALL=\(ALL\:ALL\)\s+ALL'
-    line: 'champ	ALL=(ALL:ALL) ALL'
-    dest: /etc/sudoers
-    backup: 'yes'
 
 #start with just updating the apt cache
 - name: Update apt cache
@@ -22,15 +15,15 @@
 - name: Make sure aptitude is availabe for full upgrade
   apt: name=aptitude state=present
   tags: [ apt_upgrade ]
-  
+
 #http://docs.ansible.com/ansible/apt_module.html
 - name: Full upgrade
   apt: upgrade=full
   tags: [ apt_upgrade ]
 
 - name: Install common packages
-  apt: 
-    name: "{{ item }}" 
+  apt:
+    name: "{{ item }}"
     state: present
   tags: linux-common
   with_items:
