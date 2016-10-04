@@ -34,9 +34,5 @@
 
 - service: name=apache2 state=restarted
 
-# TODO:
-#add users to staff group, or add server to domain for Active Directory accounts
-- user: name={{ ansible_user }} groups=staff
-
 - name: Configure the firewall (http)
   ufw: rule=allow port=http

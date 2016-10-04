@@ -1,0 +1,20 @@
+---
+- name: Install PostgreSQL
+  apt: pkg={{ item }} state=present
+  with_items:
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
+
+- name: Ensure Super User Account
+  become: yes
+  become_user: postgres
+  postgresql_user: name={{ ansible_user|default(lookup('env', 'USER'), True) }}
+                   state=present
+                   role_attr_flags=LOGIN,SUPERUSER
+
+- become: yes
+  become_user: postgres
+  postgresql_db: name={{ ansible_user|default(lookup('env', 'USER'), True) }}
+                 state=present
+                 owner={{ ansible_user|default(lookup('env', 'USER'), True) }}
