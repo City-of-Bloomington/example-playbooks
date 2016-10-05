@@ -6,9 +6,9 @@
     - ../group_vars/ureport.yml
     - ../group_vars/vault/ureport.yml
 
-  vars:    
+  vars:
     #mysql variables... these are specific to this playbook
-    
+
     #mysql_root_password: "{{ ureport_db_password }}"
     mysql_databases:
       - name: "{{ ureport_db_name }}"
@@ -25,14 +25,12 @@
     solr_home: /srv/solr
     solr_cores:
       - ureport
-      
-  roles:
-    - cob.linux-common
 
+  roles:
+    - City-of-Bloomington.linux
     - cob.apache
-    
-    - cob.php    
-    
+    - cob.php
+
     # via:
     # https://github.com/geerlingguy/ansible-role-composer
     # this requires using ansible-galaxy to pull down the role first:
@@ -40,11 +38,11 @@
     - geerlingguy.composer
 
     # this requires using ansible-galaxy to pull down the role first:
-    # sudo ansible-galaxy install geerlingguy.mysql    
-    - geerlingguy.mysql            
+    # sudo ansible-galaxy install geerlingguy.mysql
+    - geerlingguy.mysql
 
     #install solr
-    
+
     # via:
     # https://github.com/geerlingguy/ansible-role-java
     # this requires using ansible-galaxy to pull down the role first:
@@ -56,9 +54,8 @@
     # this requires using ansible-galaxy to pull down the role first:
     # sudo ansible-galaxy install geerlingguy.solr
     - geerlingguy.solr
-    
+
     - cob.fn1
 
     - cob.ureport
 
-    

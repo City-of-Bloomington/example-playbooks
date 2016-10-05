@@ -6,9 +6,9 @@
     - ../group_vars/content_converter.yml
     - ../group_vars/vault/content_converter.yml
 
-  vars:    
+  vars:
     #mysql variables... these are specific to this playbook
-    
+
     #mysql_root_password: "{{ converter_db_password }}"
     mysql_databases:
       - name: "{{ converter_db_name }}"
@@ -19,32 +19,30 @@
         host: "%"
         password: "{{ converter_db_password }}"
         priv: "{{ converter_db_name }}.*:ALL"
-          
-  roles:
-    - cob.linux-common
 
+  roles:
+    - City-of-Bloomington.linux
     - cob.apache
-    
     - cob.python
-    
+
     # MYSQL / DB:
     # ------------------
     # Configuring mysql with ansible is no small task.
-    
-    #- geerlingguy.mysql        
+
+    #- geerlingguy.mysql
     # uses this role for installing mysql:
     # https://github.com/geerlingguy/ansible-role-mysql
-      
+
     # this requires using ansible-galaxy to pull down the role first:
     # sudo ansible-galaxy install geerlingguy.mysql
 
     # (results in:
-    #  "extracting geerlingguy.mysql to /etc/ansible/roles/geerlingguy.mysql" ) 
+    #  "extracting geerlingguy.mysql to /etc/ansible/roles/geerlingguy.mysql" )
 
     # TODO:
     # this role works the first time it is run:
     # subsequent runs results in failure at:
-    # TASK: [geerlingguy.mysql | Ensure MySQL users are present.] ******************* 
+    # TASK: [geerlingguy.mysql | Ensure MySQL users are present.] *******************
     # failed: [192.168.56.104] => {"censored": "results hidden due to no_log parameter", "failed": true}
 
     # might be due to the version of ansible?
@@ -53,8 +51,8 @@
     # sudo apt-get remove -y mysql-client mysql-server
     # sudo rm -rf /var/lib/mysql
 
-    #- geerlingguy.mysql            
+    #- geerlingguy.mysql
 
     - cob.fn1
-    
+
     - cob.content_converter

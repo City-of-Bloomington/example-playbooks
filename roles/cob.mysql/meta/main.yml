@@ -8,4 +8,4 @@ galaxy_info:
 
 #this causes a duplicate run if the playbook already specified this
 #dependencies:
-#  - role: cob.linux-common
+#    - City-of-Bloomington.linux

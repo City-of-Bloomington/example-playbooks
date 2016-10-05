@@ -7,4 +7,4 @@ galaxy_info:
   min_ansible_version: 1.2
 
 dependencies:
-  - role: cob.linux-common
+    - City-of-Bloomington.linux
