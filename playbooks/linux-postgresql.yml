@@ -2,4 +2,4 @@
   become: yes
   roles:
     - City-of-Bloomington.linux
-    - cob.postgresql
+    - City-of-Bloomington.postgresql
