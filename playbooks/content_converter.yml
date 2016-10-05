@@ -23,7 +23,7 @@
   roles:
     - City-of-Bloomington.linux
     - City-of-Bloomington.apache
-    - cob.python
+    - City-of-Bloomington.wsgi
 
     # MYSQL / DB:
     # ------------------
