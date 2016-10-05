@@ -1,2 +1,5 @@
 - src: ontic.ntp
   path: roles/
+
+- src: https://github.com/City-of-Bloomington/ansible-role-solr
+  name: solr

@@ -2,4 +2,4 @@
   become: yes
   roles:
     - cob.linux-common
-    - cob.solr
+    - solr

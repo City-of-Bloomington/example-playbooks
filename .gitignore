@@ -20,5 +20,6 @@ roles/geerlingguy*
 roles/kosssi.apt/
 roles/kosssi.php/
 roles/ontic.ntp/
+roles/solr
 windows.bak
 group_vars/vault/
