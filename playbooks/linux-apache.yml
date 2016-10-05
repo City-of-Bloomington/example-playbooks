@@ -2,4 +2,4 @@
   become: yes
   roles:
     - City-of-Bloomington.linux
-    - cob.apache
+    - City-of-Bloomington.apache

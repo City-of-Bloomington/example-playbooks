@@ -1,3 +1,0 @@
-- name: Open firewall ports for Apache
-  ufw: rule=allow port=http
-  ufw: rule=allow port=https

@@ -188,4 +188,4 @@ galaxy_info:
   #- web
 dependencies:
   - City-of-Bloomington.linux
-  - cob.apache
+  - City-of-Bloomington.apache
