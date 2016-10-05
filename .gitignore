@@ -20,6 +20,6 @@ roles/geerlingguy*
 roles/kosssi.apt/
 roles/kosssi.php/
 roles/ontic.ntp/
-roles/cob.solr
+roles/City-of-Bloomington.*
 windows.bak
 group_vars/vault/
