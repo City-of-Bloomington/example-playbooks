@@ -4,4 +4,10 @@
 
 [linux-apache-php]
 
+[linux-wsgi]
+
 [linux-postgresql]
+
+[linux-solr]
+
+[linux-ckan]
