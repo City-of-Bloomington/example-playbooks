@@ -4,7 +4,11 @@ Configuring a machine to host services can be challenging. These playbooks are a
 
 http://www.ansible.com/how-ansible-works
 
-To use Ansible, you'll need a *nix based host/server machine that is used to configure and deploy any number of clients and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be a host.
+To use Ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
+
+The primary machine used to issue those commands is called the control machine. Hosts are the remote machines that you configure with Ansible. For more details about terms, see here:
+
+http://docs.ansible.com/ansible/glossary.html
 
 ### Installing Ansible
 
@@ -16,7 +20,7 @@ Be sure to install any missing requirements:
 
     sudo apt-get install build-essential libssl-dev libffi-dev python-dev
 
-Create a python virtualenv on the main ansible machine you'll use to configure other machines:
+Optionally, create a python virtualenv on the main ansible control machine you'll use to configure other hosts:
 
 [Virtualenv Setup](virtualenv.md)
 
@@ -25,11 +29,11 @@ Create a python virtualenv on the main ansible machine you'll use to configure o
 
     pip install ansible
 
-### Configure Client Machines
+### Configure Host Machines
 
-#### Base OS installation on clients
+#### Base OS installation on hosts
 
-Ansible assumes you have already set up the new client/destination machine with a base OS installation. There are many options for getting that configured:
+Ansible assumes you have already set up the new host/destination machine with a base OS installation. There are many options for getting that configured:
 
   - Install a base OS on an actual hardware instance of a machine.
   - Install a base OS on a virtual machine. VirtualBox or VMWare are common options.
@@ -61,16 +65,15 @@ Then, when the machine is powered on, do:
     #check for new ip with:
     ifconfig
 
-Typically, openssh-server is available on server installations by default. Make sure that the client machine is accessible via SSH:
+Typically, openssh-server is available on server installations by default. Make sure that the host machine is accessible via SSH:
 
     sudo apt-get update
     sudo apt-get -y install openssh-server
 
-Ansible requires Python installed on the client machine, as well:
+Ansible requires Python installed on the host machine, as well:
 
-```bash
-sudo apt-get install python
-```
+    bash
+    sudo apt-get install python
 
 You'll also need a user account that can sudo.
 
@@ -79,11 +82,11 @@ You'll also need a user account that can sudo.
 
 https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
-Generate local keys:
+Generate local keys on the control machine:
 
     ssh-keygen -t rsa
 
-then transfer the hosts's public key to the client/destination for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
+then transfer the control machine's public key to the host/destination for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
 
 https://github.com/beautifulcode/ssh-copy-id-for-OSX
 
@@ -100,7 +103,7 @@ If you're not prompted for a password, it worked!
 
 #### Tell ansible about hosts
 
-Configure the client machines that you want to manage with ansible. Find the IP by looking at ifconfig on VM itself, and add it to a hosts file. The default hosts file is "/etc/ansible/hosts", but you can create one anywhere and specify it in an environment variable:
+Configure the host machines that you want to manage with ansible. Find the IP by looking at ifconfig on VM itself, and add it to a hosts file. The default hosts file is "/etc/ansible/hosts", but you can create one anywhere and specify it in an environment variable:
 
     echo "192.168.24.151" > hosts.txt
     export ANSIBLE_INVENTORY=~/path/to/scripts/for/ansible/hosts.txt
@@ -139,7 +142,7 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
     ansible-playbook playbooks/bootstrap.yml -i hosts.txt --ask-become-pass
 
-If you're using a VM, this is a good chance to take a snapshot of your client so it's easy to revert back to this point for testing.
+If you're using a VM, this is a good chance to take a snapshot of your host so it's easy to revert back to this point for testing.
 
 ### Using Ansible
 
