@@ -81,4 +81,34 @@
 
 
 
+#configure apache...
+#this is optional
+#but makes hosting similar to what it would be in production
+    
+- name: check if fn1 apache config already exists
+  stat: path={{ fn1_apache_config }}
+  register: original
+  
+# check if backup of fn1_apache_config exists
+# if it already exists, we won't move it again
+- name: check if fn1 apached config backup already exists
+  stat: path={{ fn1_apache_config }}.bkup
+  register: backup
+
+#note that "copy" command in ansible copies from ansible host to client
+#one machine to the other
+#here we just want to do the copy only on the client 
+- name: Make a backup copy of fn1 apache config file
+  shell: cp {{ fn1_apache_config }} {{ fn1_apache_config }}.bkup
+  when: original.stat.exists and not backup.stat.exists
+
+- template: src=fn1.conf dest={{ fn1_apache_config }}
+  notify:
+    - restart apache
+  tags: fn1
+
+- name: a2ensite fn1
+  command: a2ensite fn1
+  notify:
+    - restart apache
     

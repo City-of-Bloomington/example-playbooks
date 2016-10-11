@@ -25,24 +25,24 @@
 - file: path={{ ureport_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
 
 
-- name: check if apached config already exists
-  stat: path={{ apache_config }}
+- name: check if ureport apache config already exists
+  stat: path={{ ureport_apache_config }}
   register: original
   
-# check if backup of apache_config exists
+# check if backup of ureport_apache_config exists
 # if it already exists, we won't move it again
-- name: check if apached config backup already exists
-  stat: path={{ apache_config }}.bkup
+- name: check if ureport apached config backup already exists
+  stat: path={{ ureport_apache_config }}.bkup
   register: backup
 
 #note that "copy" command in ansible copies from ansible host to client
 #one machine to the other
 #here we just want to do the copy only on the client 
-- name: Make a backup copy of apache config file
-  shell: cp {{ apache_config }} {{ apache_config }}.bkup
+- name: Make a backup copy of ureport apache config file
+  shell: cp {{ ureport_apache_config }} {{ ureport_apache_config }}.bkup
   when: original.stat.exists and not backup.stat.exists
 
-- template: src=ureport.conf dest={{ apache_config }}
+- template: src=ureport.conf dest={{ ureport_apache_config }}
   notify:
     - restart apache
   tags: ureport
@@ -51,11 +51,14 @@
   command: a2ensite ureport
   notify:
     - restart apache
-  
-- composer: command=install working_dir={{ ureport_path }}/crm
+
+    
+- name: Fetch ureport dependencies with composer
+  composer: command=install working_dir={{ ureport_path }}/crm
 
 - name: Run the build script
   shell: ./build.sh
+  become_user: "{{ ansible_ssh_user }}"
   args:
     chdir: "{{ ureport_path }}"
 
@@ -65,6 +68,15 @@
     - restart apache
   tags: ureport
 
+
+- name: configure asset library location
+  template: src=theme_config.inc dest={{ ureport_path }}/crm/data/Themes/COB
+  notify:
+    - restart apache
+  tags: ureport
+
+  
+
 #TODO:
 # consider how to make this idempotent... script checks for existence of tables?
 # etc
@@ -72,6 +84,10 @@
   shell: mysql -u {{ ureport_db_username }} -p{{ ureport_db_password }} {{ ureport_db_name }} < mysql.sql
   args:
     chdir: "{{ ureport_path }}/crm/scripts"
+  #easier way to comment out?
+  when: 0
    
 
-    
+# at this point pick up with "Create an Administrator Account":
+# https://github.com/City-of-Bloomington/uReport/wiki/Install
+

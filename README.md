@@ -125,7 +125,7 @@ Let ansible know where to find the roles:
 
     roles_path    = /etc/ansible/roles:/path/to/scripts/for/ansible
 
-Note: This repository is set to ignore the ansible.cfg file.
+Note: A sample ansible.cfg file is now included with this repository
 
 #### Test Ansible:
 
