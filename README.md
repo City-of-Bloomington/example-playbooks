@@ -4,13 +4,13 @@ Configuring a machine to host services can be challenging. These playbooks are a
 
 http://www.ansible.com/how-ansible-works
 
-To use Ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
-
 The primary machine used to issue those commands is called the control machine. Hosts are the remote machines that you configure with Ansible. For more details about terms, see here:
 
 http://docs.ansible.com/ansible/glossary.html
 
-### Installing Ansible
+To use Ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
+
+### Installing Ansible on control machine
 
 Full up-to-date details for installing an ansible control machine are available here:
 
@@ -167,6 +167,7 @@ For details about the vault:
 
 
 
+
 #### Ongoing Maintenance
 
 As processes are refined, or as operating systems change, it is important to test and adapt the corresponding playbooks and roles to reflect current requirements.
@@ -179,6 +180,22 @@ To create new roles:
 ### External Roles
 
 Some of our playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
+
+In the main directory of this system-playbooks project, you can run the following:
+
+    ansible-galaxy install --roles-path ./roles -r roles.yml
+
+These roles are then available for use by playbooks.
+
+For development, those roles need to be checked out from Github directly:
+
+    git clone https://github.com/City-of-Bloomington/ansible-role-linux.git ./roles/City-of-Bloomington.linux
+    git clone https://github.com/City-of-Bloomington/ansible-role-apache.git ./roles/City-of-Bloomington.apache
+    git clone https://github.com/City-of-Bloomington/ansible-role-postgresql.git ./roles/City-of-Bloomington.postgresql
+    git clone https://github.com/City-of-Bloomington/ansible-role-solr.git ./roles/City-of-Bloomington.solr
+    git clone https://github.com/City-of-Bloomington/ansible-role-solr.wsgi ./roles/City-of-Bloomington.wsgi
+
+
 
 As an example, configuring MySQL:
 
