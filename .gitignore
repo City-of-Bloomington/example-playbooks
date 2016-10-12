@@ -9,6 +9,7 @@
 .Spotlight-V100*
 .fseventsd*
 *.tar.gz
+*.retry
 host_vars/
 hosts
 hosts.txt
