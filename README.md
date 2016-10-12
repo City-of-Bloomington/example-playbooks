@@ -18,7 +18,8 @@ http://docs.ansible.com/ansible/intro_installation.html
 
 Be sure to install any missing requirements:
 
-    sudo apt-get install build-essential libssl-dev libffi-dev python-dev
+    sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip
+    pip install --upgrade pip
 
 Optionally, create a python virtualenv on the main ansible control machine you'll use to configure other hosts:
 
@@ -26,6 +27,8 @@ Optionally, create a python virtualenv on the main ansible control machine you'l
 
     cd ~/path/to/scripts/for/ansible
     #should enable virtualenv
+
+Finally, install ansible with pip:
 
     pip install ansible
 
