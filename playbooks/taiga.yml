@@ -1,0 +1,9 @@
+- hosts: linux-taiga
+  become: yes
+  roles:
+    - City-of-Bloomington.linux
+    - City-of-Bloomington.apache
+    - City-of-Bloomington.postgresql
+    #we'll need wsgi to use Python 3 here
+    #- City-of-Bloomington.wsgi
+    - cob.taiga

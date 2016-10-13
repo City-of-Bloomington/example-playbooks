@@ -196,7 +196,7 @@ For development, those roles need to be checked out from Github directly:
     git clone https://github.com/City-of-Bloomington/ansible-role-apache.git ./roles/City-of-Bloomington.apache
     git clone https://github.com/City-of-Bloomington/ansible-role-postgresql.git ./roles/City-of-Bloomington.postgresql
     git clone https://github.com/City-of-Bloomington/ansible-role-solr.git ./roles/City-of-Bloomington.solr
-    git clone https://github.com/City-of-Bloomington/ansible-role-solr.wsgi ./roles/City-of-Bloomington.wsgi
+    git clone https://github.com/City-of-Bloomington/ansible-role-wsgi.git ./roles/City-of-Bloomington.wsgi
 
 
 

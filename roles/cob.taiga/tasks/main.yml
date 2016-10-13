@@ -1,0 +1,6 @@
+---
+# tasks file for cob.taiga
+
+- include: install.yml 
+  tags: [ install_taiga_requirements ]
+

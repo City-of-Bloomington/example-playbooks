@@ -1,0 +1,22 @@
+---
+# vars file for cob.taiga
+
+taiga_ip: 192.168.56.101
+taiga_hostname: 192.168.56.101
+taiga_secret_key: "theveryultratopsecretkey"
+taiga_from_email: "no-reply@example.com"
+
+taiga_username: taiga
+
+taiga_path: /srv/taiga
+
+taiga_front_path: /srv/sites/taiga
+taiga_front_base: ""
+
+taiga_db_name: taiga
+#these should be defined elsewhere (these are not sane defaults)
+#taiga_db_username: taiga
+#taiga_db_password: pass
+
+taiga_apache_config: /etc/apache2/sites-available/taiga.conf
+
