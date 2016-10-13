@@ -3,3 +3,4 @@
 - src: City-of-Bloomington.postgresql
 - src: City-of-Bloomington.solr
 - src: City-of-Bloomington.wsgi
+- src: City-of-Bloomington.php

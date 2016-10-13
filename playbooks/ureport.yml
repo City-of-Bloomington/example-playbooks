@@ -29,7 +29,7 @@
   roles:
     - City-of-Bloomington.linux
     - City-of-Bloomington.apache
-    - cob.php
+    - City-of-Bloomington.apache
 
     # via:
     # https://github.com/geerlingguy/ansible-role-composer
