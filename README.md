@@ -1,6 +1,6 @@
-## City of Bloomington Ansible Playbooks
+# Ansible Playbooks
 
-Configuring a machine to host services can be challenging. These playbooks are an attempt to codify and automate this process using Ansible. Ansible is a configuration management system. For more information about Ansible, see:
+Configuring a machine to host services can be challenging. These playbooks are an attempt to codify and automate the processes we use at the City of Bloomington. Ansible is a configuration management system. For more information about Ansible, see:
 
 http://www.ansible.com/how-ansible-works
 
@@ -10,7 +10,7 @@ http://docs.ansible.com/ansible/glossary.html
 
 To use Ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
 
-### Installing Ansible on control machine
+## Installing Ansible on control machine
 
 Full up-to-date details for installing an ansible control machine are available here:
 
@@ -32,9 +32,10 @@ Finally, install ansible with pip:
 
     pip install ansible
 
-### Configure Host Machines
 
-#### Base OS installation on hosts
+## Configure Host Machines
+
+### Base OS installation on hosts
 
 Ansible assumes you have already set up the new host/destination machine with a base OS installation. There are many options for getting that configured:
 
@@ -81,7 +82,7 @@ Ansible requires Python installed on the host machine, as well:
 You'll also need a user account that can sudo.
 
 
-#### Configure SSH public key connections
+### Configure SSH public key connections
 
 https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
@@ -102,9 +103,9 @@ You can test this with:
 If you're not prompted for a password, it worked!
 
 
-### Ansible Configuration
+## Ansible Configuration
 
-#### Tell ansible about hosts
+### Tell ansible about hosts
 
 Configure the host machines that you want to manage with ansible. Find the IP by looking at ifconfig on VM itself, and add it to a hosts file. The default hosts file is "/etc/ansible/hosts", but you can create one anywhere and specify it in an environment variable:
 
@@ -114,7 +115,7 @@ Configure the host machines that you want to manage with ansible. Find the IP by
 You can also pass the hosts file in as a parameter ("-i") on the command line.
 
 
-#### Ansible configuration defaults
+### Ansible configuration defaults
 
 Ansible expects playbooks, roles, etc (e.g. this repository) to be in /etc/ansible by default.
 
@@ -133,7 +134,7 @@ Let ansible know where to find the roles:
 
 Note: A sample ansible.cfg file is now included with this repository
 
-#### Test Ansible:
+### Test Ansible:
 
 At this point, if you run:
 
@@ -147,9 +148,9 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
 If you're using a VM, this is a good chance to take a snapshot of your host so it's easy to revert back to this point for testing.
 
-### Using Ansible
+## Using Ansible
 
-#### Applying system configurations
+### Applying system configurations
 
 Ansible uses the concept of "roles" to group configurations for a specific purpose. The roles can be combined to form a playbook to configure a certain type of system.
 
@@ -168,39 +169,41 @@ For details about the vault:
 
 [Variables and Vaults](group_vars/)
 
-
-
-
-#### Ongoing Maintenance
-
 As processes are refined, or as operating systems change, it is important to test and adapt the corresponding playbooks and roles to reflect current requirements.
 
-To create new roles:
+
+## Roles
+
+It can be helpful to abstract tasks that show up in more than one playbook / server as roles. 
+
+To create new a new role:
 
     ansible-galaxy init cob.apache
 
+When getting started with a new role, create it in the system-playbooks/roles directory. Once multiple playbooks make use of a role, abstract it out.
 
-### External Roles
+### Role Development
 
-Some of our playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
-
-In the main directory of this system-playbooks project, you can run the following:
-
-    ansible-galaxy install --roles-path ./roles -r roles.yml
-
-These roles are then available for use by playbooks.
-
-For development, those roles need to be checked out from Github directly:
+For development, roles need to be checked out from Github directly:
 
     git clone https://github.com/City-of-Bloomington/ansible-role-linux.git ./roles/City-of-Bloomington.linux
     git clone https://github.com/City-of-Bloomington/ansible-role-apache.git ./roles/City-of-Bloomington.apache
     git clone https://github.com/City-of-Bloomington/ansible-role-postgresql.git ./roles/City-of-Bloomington.postgresql
     git clone https://github.com/City-of-Bloomington/ansible-role-solr.git ./roles/City-of-Bloomington.solr
     git clone https://github.com/City-of-Bloomington/ansible-role-wsgi.git ./roles/City-of-Bloomington.wsgi
+    git clone https://github.com/City-of-Bloomington/ansible-role-php.git ./roles/City-of-Bloomington.php
 
+### External Roles
 
+Some of our playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
 
-As an example, configuring MySQL:
+To grab them all, in the main directory of this system-playbooks project, run the following:
+
+    ansible-galaxy install --roles-path ./roles -r roles.yml
+
+These roles are then available for use by playbooks.
+
+Individual roles can be installed manually and included in playbooks. As an example, configuring MySQL:
 
 https://github.com/geerlingguy/ansible-role-mysql  
 
@@ -217,7 +220,7 @@ This results in:
     "extracting geerlingguy.mysql to /etc/ansible/roles/geerlingguy.mysql" 
 
 
-### References
+## References
 
 Previously, we maintained instructions for manually configuring a linux system available here:
 
