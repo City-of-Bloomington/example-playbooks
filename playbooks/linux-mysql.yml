@@ -2,4 +2,4 @@
   become: yes
   roles:
     - City-of-Bloomington.linux
-    - cob.mysql
+    - City-of-Bloomington.mysql

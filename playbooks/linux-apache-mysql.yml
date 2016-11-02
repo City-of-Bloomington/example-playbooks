@@ -3,4 +3,4 @@
   roles:
     - City-of-Bloomington.linux
     - City-of-Bloomington.apache
-    - cob.mysql
+    - City-of-Bloomington.mysql

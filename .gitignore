@@ -12,14 +12,7 @@
 *.retry
 host_vars/
 hosts
-hosts.txt
-hosts.dpkg-old
-roles/ANXS.mysql/
-roles/HanXHX.firewall/
-roles/geerlingguy.apache/
 roles/geerlingguy*
-roles/kosssi.apt/
-roles/kosssi.php/
 roles/ontic.ntp/
 roles/City-of-Bloomington.*
 windows.bak

@@ -1,5 +1,0 @@
----
-# handlers file for cob.build-apache
-- name: restart mysql
-  service: name=mysql state=restarted
-
