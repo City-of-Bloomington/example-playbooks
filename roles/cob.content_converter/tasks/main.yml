@@ -16,8 +16,8 @@
     #- postgresql-client
     #- libpq-dev
     #- sqlite3
-    
-    - libapache2-mod-wsgi    
+
+    - libapache2-mod-wsgi
 
 # enables the Apache2 module "wsgi"
 - apache2_module: state=present name=wsgi
@@ -30,7 +30,7 @@
 #  pip: name=psycopg2
 
 - name: pip install django
-  pip: name=django version=1.9.7    
+  pip: name=django version=1.9.7
 
 - name: check if repository has already been checked out
   stat: path='{{ converter_path }}'
@@ -44,7 +44,7 @@
 # way to check for that?
 #- file: path={{ converter_path }} state=directory owner=www-data group=staff recurse=yes mode=2770
 
-  
+
 #mysql config should be handled earlier now by mysql role directly
 - template: src=mysql.cnf dest='{{ converter_path }}/converter/mysql.cnf'
   tags: converter
@@ -55,7 +55,7 @@
     dest: '{{ converter_path }}/converter/settings.py'
     regexp: 'read_default_file'
     line: "            'read_default_file': '{{ converter_path }}/converter/mysql.cnf',"
-  
+
 #check if backup of 000-default.conf exists
 #create a copy if not
 # if it already exists, we won't move it again
@@ -65,16 +65,15 @@
 
 #note that "copy" in ansible copies from ansible host to client
 #one machine to the other
-#here we just want to do the copy only on the client 
+#here we just want to do the copy only on the client
 - name: Make a backup copy of apache config file
   shell: cp {{ apache_config }} {{ apache_config }}.bkup
   when: not check.stat.exists
 
 - template: src=000-default.conf dest={{ apache_config }}
-  notify:
-    - restart apache
+  notify: apache_restart
   tags: converter
-  
+
 #this is useful for debugging purposes (running:
 # cd /srv/content_converter/src
 # python code.py 5000

@@ -37,12 +37,12 @@
     #this is necessary for compiling mod_wsgi for python3
     #- apache2-dev
 
-    
+
 - name: Enable Proxy module in apache
   apache2_module: state=present name=proxy_http
 
 
-    
+
 - name: Ensure Postgres Taiga Account
   become: yes
   become_user: postgres
@@ -61,15 +61,15 @@
 #   stat: path='{{ taiga_path }}'
 #   register: check
 
-- file: path='{{ taiga_path }}' state=directory mode=2755  
-  
+- file: path='{{ taiga_path }}' state=directory mode=2755
+
 - name: Check out source repository with git
   git: repo=https://github.com/taigaio/taiga-back.git dest='{{ taiga_path }}/taiga-back' version=stable update=no
 #  when: not check.stat.exists
 #  become_user: '{{ taiga_username }}'
 
 - name: Update ownership for taiga_path
-  file: dest='{{ taiga_path }}' owner='{{ taiga_username }}' group=staff recurse=yes  
+  file: dest='{{ taiga_path }}' owner='{{ taiga_username }}' group=staff recurse=yes
 
 # - name: Make a virtualenv
 #   shell: . /usr/share/virtualenvwrapper/virtualenvwrapper.sh && mkvirtualenv -p /usr/bin/python3.4 {{ taiga_path }}/virtualenv
@@ -82,16 +82,16 @@
 
 
 # was not able to get wsgi to work for taiga-back server
-  
+
 # #default wsgi module works for python2
 # #in this case we want to make sure it works with python3
 # #http://devmartin.com/blog/2015/02/how-to-deploy-a-python3-wsgi-application-with-apache2-and-debian/
-# - name: Use pip3 to install mod_wsgi 
+# - name: Use pip3 to install mod_wsgi
 #   pip: executable=/usr/bin/pip3 name=mod_wsgi state=latest
 
 # - name: link to mod_wsgi
 #   file: src=/usr/local/lib/python3.5/dist-packages/mod_wsgi/server/mod_wsgi-py35.cpython-35m-x86_64-linux-gnu.so dest=/usr/lib/apache2/modules/mod_wsgi.so state=link
-  
+
 # - name: Enable WSGI module in apache
 #   apache2_module: state=present name=wsgi
 
@@ -103,9 +103,9 @@
 #     Require all granted
 # </Files>
 # </Directory>
-  
 
-  
+
+
 #could also specify the virtualenv here if that is preferred
 - name: pip install requirements
   become: yes
@@ -117,44 +117,44 @@
   shell: python3 manage.py migrate --noinput
   become: yes
   become_user: '{{ taiga_username }}'
-  args: 
+  args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - name: Configure Taiga (manage.py)
   shell: python3 manage.py loaddata initial_user
   become: yes
   become_user: '{{ taiga_username }}'
   args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - name: Configure Taiga (manage.py)
   shell: python3 manage.py loaddata initial_project_templates
   become: yes
   become_user: '{{ taiga_username }}'
   args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - name: Configure Taiga (manage.py)
   shell: python3 manage.py loaddata initial_role
   become: yes
   become_user: '{{ taiga_username }}'
   args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - name: Configure Taiga (manage.py)
   shell: python3 manage.py compilemessages
   become: yes
   become_user: '{{ taiga_username }}'
   args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - name: Configure Taiga (manage.py)
-  shell: python3 manage.py collectstatic --noinput  
+  shell: python3 manage.py collectstatic --noinput
   become: yes
   become_user: '{{ taiga_username }}'
   args:
     chdir: "{{ taiga_path }}/taiga-back"
-    
+
 - template: src=local.py dest='{{ taiga_path }}/taiga-back/settings/local.py'
   tags: taiga
 
@@ -174,11 +174,11 @@
 #configure apache...
 #this is optional
 #but makes hosting similar to what it would be in production
-    
+
 - name: check if taiga apache config already exists
   stat: path={{ taiga_apache_config }}
   register: original
-  
+
 # check if backup of taiga_apache_config exists
 # if it already exists, we won't move it again
 - name: check if taiga apached config backup already exists
@@ -194,31 +194,31 @@
 
 - template: src=taiga.conf dest={{ taiga_apache_config }}
   notify:
-    - restart apache
+    - apache_restart
   tags: taiga
 
 - name: a2ensite taiga
   command: a2ensite taiga
   notify:
-    - restart apache
+    - apache_restart
 
 - template: src=conf.json dest={{ taiga_front_path }}/dist/
   notify:
-    - restart apache
+    - apache_restart
   tags: taiga
 
-    
-    
-#TODO: this is not idempotent... will not complete on multiple runs  
+
+
+#TODO: this is not idempotent... will not complete on multiple runs
 # - name: Add sample data (optional)
 #   shell: python3 manage.py sample_data
 #   become: yes
 #   become_user: '{{ taiga_username }}'
 #   args:
 #     chdir: "{{ taiga_path }}/taiga-back"
-    
-  
-#*2016.10.13 12:22:40     
+
+
+#*2016.10.13 12:22:40
 #TODO:
 #final steps (6.) in this guide:
 #http://taigaio.github.io/taiga-doc/dist/setup-production.html
