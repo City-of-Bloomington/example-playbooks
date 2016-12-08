@@ -1,0 +1,5 @@
+- hosts: linux-node
+  become: yes
+  roles:
+    - City-of-Bloomington.linux
+    - City-of-Bloomington.node

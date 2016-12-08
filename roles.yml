@@ -3,5 +3,7 @@
 - src: City-of-Bloomington.mysql
 - src: City-of-Bloomington.postgresql
 - src: City-of-Bloomington.solr
+- src: City-of-Bloomington.tomcat
 - src: City-of-Bloomington.wsgi
 - src: City-of-Bloomington.php
+- src: City-of-Bloomington.nodejs
