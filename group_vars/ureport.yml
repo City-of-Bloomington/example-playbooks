@@ -1,5 +1,0 @@
-# do *not* include trailing slash!
-ureport_path: /srv/ureport
-ureport_db_name: "{{ vault_ureport_db_name }}"
-ureport_db_username: "{{ vault_ureport_db_username }}"
-ureport_db_password: "{{ vault_ureport_db_password }}"
