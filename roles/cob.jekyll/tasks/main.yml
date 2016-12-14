@@ -1,0 +1,48 @@
+---
+# tasks file for cob.jekyll
+
+# https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/
+
+# Apt package installation of required software.
+- name: Install Jekyll dependencies.
+  action: apt pkg={{ item }} state=present
+  with_items:
+    - build-essential
+    - ruby
+    - ruby-dev
+    - ruby-all-dev
+    - jekyll
+
+- name: Configure the firewall to allow debugging (4000)
+  ufw: rule=allow port=4000    
+    
+- name: Check out source repository with git
+  git: repo=https://github.com/city-of-bloomington/city-of-bloomington.github.io dest='{{ cob_githubio_path }}' update=no
+#  when: not check.stat.exists
+#  become_user: '{{ taiga_username }}'
+
+- name: Update ownership for /srv
+  file: path='/srv' state=directory mode=2770 owner=www-data group=staff recurse=yes  
+  
+- name: Update ownership for {{ cob_githubio_path }}
+  file: path='{{ cob_githubio_path }}' state=directory mode=2770 owner=brandtc group=staff recurse=yes  
+
+
+
+  
+#Just install from apt-get... it's easier
+
+#this does not seem to work. needed to install manually:
+#sudo gem install bundler
+# this is required
+#- name: Use gem to install bundler
+#  gem: name=bundler state=present
+
+#cd {{ cob_githubio_path }}
+#bundle install
+
+#this does not seem to work. Above bundle install command should make it work anyway
+#sudo gem install jekyll
+#- name: Use gem to install Jekyll
+#  gem: name=jekyll state=present
+

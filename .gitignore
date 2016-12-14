@@ -12,6 +12,7 @@
 *.retry
 host_vars/
 hosts
+hosts.txt
 roles/geerlingguy*
 roles/ontic.ntp/
 roles/City-of-Bloomington.*

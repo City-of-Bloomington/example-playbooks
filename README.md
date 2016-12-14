@@ -12,7 +12,7 @@ To use Ansible, you'll need a *nix based control machine/server that is used to 
 
 ## Installing Ansible on control machine
 
-Full up-to-date details for installing an ansible control machine are available here:
+Up-to-date details for installing an ansible control machine are available here:
 
 http://docs.ansible.com/ansible/intro_installation.html
 
