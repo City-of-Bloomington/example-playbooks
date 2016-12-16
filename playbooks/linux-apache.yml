@@ -1,5 +1,4 @@
 - hosts: linux-apache
   become: yes
   roles:
-    - City-of-Bloomington.linux
     - City-of-Bloomington.apache
