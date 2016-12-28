@@ -1,16 +1,18 @@
 # Ansible Playbooks
 
-Configuring a machine to host services can be challenging. These playbooks are an attempt to codify and automate the processes we use at the City of Bloomington. Ansible is a configuration management system. For more information about Ansible, see:
+This project is a sandbox and staging ground for our ansible roles and playbooks. These playbooks codify and automate the processes we use at the City of Bloomington to configure machines and hosted services.
+
+Ansible is a configuration management system. For more information about ansible, see:
 
 http://www.ansible.com/how-ansible-works
 
-The primary machine used to issue those commands is called the control machine. Hosts are the remote machines that you configure with Ansible. For more details about terms, see here:
+The primary machine used to issue those commands is called the control machine. Hosts are the remote machines that you configure with ansible. For more details about terms, see here:
 
 http://docs.ansible.com/ansible/glossary.html
 
-To use Ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
+To use ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
 
-## Installing Ansible on control machine
+## Installing ansible on control machine
 
 Up-to-date details for installing an ansible control machine are available here:
 
@@ -33,7 +35,7 @@ Finally, install ansible with pip:
     pip install ansible
 
 
-## Configure Host Machines
+## Configure host machines
 
 ### Base OS installation on hosts
 
@@ -43,7 +45,8 @@ Ansible assumes you have already set up the new host/destination machine with a 
   - Install a base OS on a virtual machine. VirtualBox or VMWare are common options.
       - VirtualBox is a free and capable solution for creating virtual machines on your local machine.
       - VMWare is a commercial solution that also makes the base OS install very straightforward.
-  - Use Vagrant to spin up a base virtual machine. Vagrant does have the abilitiy to call a configuration management solution like Ansible automatically. VirtualBox and VMWare are both options here too. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
+  - Use Vagrant to spin up a base virtual machine. Vagrant does have the abilitiy to call a configuration management solution like ansible automatically. VirtualBox and VMWare are both options here too. If you're using VMWare for virtualization, you'll need the commercial version of Vagrant to work with VMWare.
+  - Use a cloud service provider that provides the base system for you
   - Use Docker containers? (Still working on this...)
 
 For VirtualBox, you'll need a "Host-only Adapter" in order to access the machine. When the VM is powered off, add another network interface:
@@ -83,6 +86,8 @@ You'll also need a user account that can sudo.
 
 
 ### Configure SSH public key connections
+
+SSH public key connections allow you to configure a control machine with SSH access to a host machine without needing to supply a password every time.
 
 https://help.ubuntu.com/community/SSH/OpenSSH/Keys
 
@@ -132,9 +137,9 @@ Let ansible know where to find the roles:
 
     roles_path    = /etc/ansible/roles:/path/to/scripts/for/ansible
 
-Note: A sample ansible.cfg file is now included with this repository
+> Note: A sample ansible.cfg file is now included with this repository
 
-### Test Ansible:
+### Test ansible:
 
 At this point, if you run:
 
@@ -148,7 +153,7 @@ If you get an error, Ubuntu 16.04 server is no longer shipping with Python 2. Yo
 
 If you're using a VM, this is a good chance to take a snapshot of your host so it's easy to revert back to this point for testing.
 
-## Using Ansible
+## Using ansible
 
 ### Applying system configurations
 
@@ -161,7 +166,7 @@ Pick a playbook, review the configured roles, then give it a go:
 If the playbook completes successfully, *congratulations!* You should have a working server configured for the corresponding service.
 
 
-For playbooks that utilize passwords in the vault, use this:
+For playbooks that utilize passwords in the vault, pass in the '--ask-vault-pass' parameter:
 
     ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass --ask-vault-pass
 
@@ -171,6 +176,9 @@ For details about the vault:
 
 As processes are refined, or as operating systems change, it is important to test and adapt the corresponding playbooks and roles to reflect current requirements.
 
+> *Note*:
+> 
+> "--ask-become-pass" and "--ask-vault-pass" are also set to True in ansible.cfg, so they won't need to be passed in explicitly if that is in place
 
 ## Roles
 
@@ -188,14 +196,19 @@ For development, roles need to be checked out from Github directly:
 
     git clone https://github.com/City-of-Bloomington/ansible-role-linux.git ./roles/City-of-Bloomington.linux
     git clone https://github.com/City-of-Bloomington/ansible-role-apache.git ./roles/City-of-Bloomington.apache
+    git clone https://github.com/City-of-Bloomington/ansible-role-mysql.git ./roles/City-of-Bloomington.mysql
     git clone https://github.com/City-of-Bloomington/ansible-role-postgresql.git ./roles/City-of-Bloomington.postgresql
-    git clone https://github.com/City-of-Bloomington/ansible-role-solr.git ./roles/City-of-Bloomington.solr
     git clone https://github.com/City-of-Bloomington/ansible-role-wsgi.git ./roles/City-of-Bloomington.wsgi
     git clone https://github.com/City-of-Bloomington/ansible-role-php.git ./roles/City-of-Bloomington.php
+    git clone https://github.com/City-of-Bloomington/ansible-role-solr.git ./roles/City-of-Bloomington.solr
+    git clone https://github.com/city-of-bloomington/ansible-role-fn1.git ./roles/City-of-Bloomington.fn1
+    git clone https://github.com/city-of-bloomington/ansible-role-nodejs.git ./roles/City-of-Bloomington.nodejs
+    git clone https://github.com/city-of-bloomington/ansible-role-tomcat.git ./roles/City-of-Bloomington.tomcat
+    git clone https://github.com/city-of-bloomington/ansible-role-ckan.git ./roles/City-of-Bloomington.ckan
 
 ### External Roles
 
-Some of our playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
+Some playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
 
 To grab them all, in the main directory of this system-playbooks project, run the following:
 

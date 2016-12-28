@@ -18,3 +18,5 @@ roles/ontic.ntp/
 roles/City-of-Bloomington.*
 windows.bak
 group_vars/vault/
+group_vars/temp/
+vault.yml
