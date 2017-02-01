@@ -20,3 +20,4 @@ windows.bak
 group_vars/vault/
 group_vars/temp/
 vault.yml
+launch.sh

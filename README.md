@@ -34,6 +34,16 @@ Finally, install ansible with pip:
 
     pip install ansible
 
+If ansible is not installed on the local machine, it is a good idea to assign a static IP address to the control machine. It's easier to access the machine that way. See below for notes about configuring the network interface. In this case, we'll replace:
+
+    iface enp0s8 inet dhcp
+
+with:
+
+    iface enp0s8 inet static
+    address 192.168.56.22
+    netmask 255.255.255.0
+
 
 ## Configure host machines
 
@@ -205,7 +215,8 @@ For development, roles need to be checked out from Github directly:
     git clone https://github.com/city-of-bloomington/ansible-role-nodejs.git ./roles/City-of-Bloomington.nodejs
     git clone https://github.com/city-of-bloomington/ansible-role-tomcat.git ./roles/City-of-Bloomington.tomcat
     git clone https://github.com/city-of-bloomington/ansible-role-ckan.git ./roles/City-of-Bloomington.ckan
-
+    git clone https://github.com/City-of-Bloomington/ansible-role-drupal.git ./roles/City-of-Bloomington.drupal
+    
 ### External Roles
 
 Some playbooks utilize external roles. These require using ansible-galaxy to pull them down and make them available locally.
