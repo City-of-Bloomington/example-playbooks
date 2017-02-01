@@ -6,44 +6,13 @@ Ansible is a configuration management system. For more information about ansible
 
 http://www.ansible.com/how-ansible-works
 
+## Terminology
+
 The primary machine used to issue those commands is called the control machine. Hosts are the remote machines that you configure with ansible. For more details about terms, see here:
 
 http://docs.ansible.com/ansible/glossary.html
 
-To use ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. We have a dedicated server for this (ansible), but it is also possible to configure your local machine to be the control.
-
-## Installing ansible on control machine
-
-Up-to-date details for installing an ansible control machine are available here:
-
-http://docs.ansible.com/ansible/intro_installation.html
-
-Be sure to install any missing requirements:
-
-    sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip
-    pip install --upgrade pip
-
-Optionally, create a python virtualenv on the main ansible control machine you'll use to configure other hosts:
-
-[Virtualenv Setup](virtualenv.md)
-
-    cd ~/path/to/scripts/for/ansible
-    #should enable virtualenv
-
-Finally, install ansible with pip:
-
-    pip install ansible
-
-If ansible is not installed on the local machine, it is a good idea to assign a static IP address to the control machine. It's easier to access the machine that way. See below for notes about configuring the network interface. In this case, we'll replace:
-
-    iface enp0s8 inet dhcp
-
-with:
-
-    iface enp0s8 inet static
-    address 192.168.56.22
-    netmask 255.255.255.0
-
+To use ansible, you'll need a *nix based control machine/server that is used to configure and deploy any number of hosts and services. 
 
 ## Configure host machines
 
@@ -95,7 +64,42 @@ Ansible requires Python installed on the host machine, as well:
 You'll also need a user account that can sudo.
 
 
-### Configure SSH public key connections
+## Install ansible on control machine
+
+Up-to-date details for installing an ansible control machine are available here:
+
+http://docs.ansible.com/ansible/intro_installation.html
+
+A quick overview follows.
+
+Be sure to install any missing requirements:
+
+    sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip
+    pip install --upgrade pip
+
+Optionally, create a python virtualenv on the main ansible control machine you'll use to configure other hosts:
+
+[Virtualenv Setup](virtualenv.md)
+
+    cd ~/path/to/scripts/for/ansible
+    #should enable virtualenv
+
+Finally, install ansible with pip:
+
+    pip install ansible
+
+If ansible is not installed on the local machine, it is a good idea to assign a static IP address to the control machine. It's easier to access the machine that way. See below for notes about configuring the network interface. In this case, we'll replace:
+
+    iface enp0s8 inet dhcp
+
+with:
+
+    iface enp0s8 inet static
+    address 192.168.56.22
+    netmask 255.255.255.0
+
+
+## Configure SSH public key connections
 
 SSH public key connections allow you to configure a control machine with SSH access to a host machine without needing to supply a password every time.
 
