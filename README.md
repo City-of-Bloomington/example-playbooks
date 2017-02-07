@@ -6,7 +6,7 @@ Ansible is a configuration management system. For more information about ansible
 
 http://www.ansible.com/how-ansible-works
 
-It'll help to have a copy, so go ahead and grab it:
+It'll help to have a copy of this repository, so go ahead and grab it:
 
     git clone https://github.com/City-of-Bloomington/system-playbooks.git
 
@@ -68,29 +68,6 @@ Ansible requires Python installed on the host machine, as well:
 You'll also need a user account that can sudo.
 
 
-## Configure SSH public key connections
-
-SSH public key connections allow you to configure a control machine with SSH access to a host machine without needing to supply a password every time.
-
-https://help.ubuntu.com/community/SSH/OpenSSH/Keys
-
-Generate local keys on the control machine:
-
-    ssh-keygen -t rsa
-
-then transfer the control machine's public key to the host/destination for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
-
-https://github.com/beautifulcode/ssh-copy-id-for-OSX
-
-    ssh-copy-id username@hostname
-
-You can test this with:
-
-    ssh username@hostname
-
-If you're not prompted for a password, it worked!
-
-
 ## Install ansible on control machine
 
 Up-to-date details for installing an ansible control machine are available here:
@@ -121,6 +98,30 @@ Be sure to install any missing requirements:
 Finally, install ansible with pip:
 
     pip install ansible
+
+
+## Configure SSH public key connections
+
+SSH public key connections allow you to configure a control machine with SSH access to a host machine without needing to supply a password every time.
+
+https://help.ubuntu.com/community/SSH/OpenSSH/Keys
+
+Generate local keys on the control machine:
+
+    ssh-keygen -t rsa
+
+then transfer the control machine's public key to the host/destination for the user that can sudo. See the link above for manual transfer process, or use ssh-copy-id. On OSX, this works:
+
+https://github.com/beautifulcode/ssh-copy-id-for-OSX
+
+    ssh-copy-id username@hostname
+
+You can test this with:
+
+    ssh username@hostname
+
+If you're not prompted for a password, it worked!
+
 
 ## Ansible Configuration
 
