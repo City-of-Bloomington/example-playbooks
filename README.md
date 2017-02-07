@@ -1,10 +1,14 @@
 # Ansible Playbooks
 
-This project is a sandbox and staging ground for our ansible roles and playbooks. These playbooks codify and automate the processes we use at the City of Bloomington to configure machines and hosted services.
+Start keeping track of the way systems are set up and configured using ansible roles and playbooks. These playbooks codify and automate the processes we use at the City of Bloomington to configure machines.
 
 Ansible is a configuration management system. For more information about ansible, see:
 
 http://www.ansible.com/how-ansible-works
+
+It'll help to have a copy, so go ahead and grab it:
+
+    git clone https://github.com/City-of-Bloomington/system-playbooks.git
 
 ## Terminology
 
@@ -18,7 +22,7 @@ To use ansible, you'll need a *nix based control machine/server that is used to 
 
 ### Base OS installation on hosts
 
-Ansible assumes you have already set up the new host/destination machine with a base OS installation. There are many options for getting that configured:
+Ansible assumes you have already set up the new host/destination machine with a base OS installation. There are many options for where to put a base OS:
 
   - Install a base OS on an actual hardware instance of a machine.
   - Install a base OS on a virtual machine. VirtualBox or VMWare are common options.
@@ -59,44 +63,9 @@ Typically, openssh-server is available on server installations by default. Make 
 Ansible requires Python installed on the host machine, as well:
 
     bash
-    sudo apt-get install python
+    sudo apt-get install -y python
 
 You'll also need a user account that can sudo.
-
-
-## Install ansible on control machine
-
-Up-to-date details for installing an ansible control machine are available here:
-
-http://docs.ansible.com/ansible/intro_installation.html
-
-A quick overview follows.
-
-Be sure to install any missing requirements:
-
-    sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip
-    pip install --upgrade pip
-
-Optionally, create a python virtualenv on the main ansible control machine you'll use to configure other hosts:
-
-[Virtualenv Setup](virtualenv.md)
-
-    cd ~/path/to/scripts/for/ansible
-    #should enable virtualenv
-
-Finally, install ansible with pip:
-
-    pip install ansible
-
-If ansible is not installed on the local machine, it is a good idea to assign a static IP address to the control machine. It's easier to access the machine that way. See below for notes about configuring the network interface. In this case, we'll replace:
-
-    iface enp0s8 inet dhcp
-
-with:
-
-    iface enp0s8 inet static
-    address 192.168.56.22
-    netmask 255.255.255.0
 
 
 ## Configure SSH public key connections
@@ -121,6 +90,37 @@ You can test this with:
 
 If you're not prompted for a password, it worked!
 
+
+## Install ansible on control machine
+
+Up-to-date details for installing an ansible control machine are available here:
+
+http://docs.ansible.com/ansible/intro_installation.html
+
+If ansible is not installed on the local machine, it is a good idea to assign a static IP address to the control machine. It's easier to access the machine that way. See above for notes about configuring the network interface. In this case, we'll replace:
+
+    iface enp0s8 inet dhcp
+
+with:
+
+    iface enp0s8 inet static
+    address 192.168.56.22
+    netmask 255.255.255.0
+
+If ansible is being installed on a VM, it may make sense to update the hostname:
+
+    sudo vi /etc/hostname
+    sudo vi /etc/hosts
+    sudo service hostname restart
+
+Be sure to install any missing requirements:
+
+    sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip sshpass
+    pip install --upgrade pip
+
+Finally, install ansible with pip:
+
+    pip install ansible
 
 ## Ansible Configuration
 
