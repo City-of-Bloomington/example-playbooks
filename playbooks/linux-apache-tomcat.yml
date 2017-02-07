@@ -1,4 +1,4 @@
-- hosts: linux-apache-tomcat
+- hosts: tomcat
   become: yes
   roles:
     - City-of-Bloomington.tomcat

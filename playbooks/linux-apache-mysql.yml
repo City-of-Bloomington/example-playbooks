@@ -1,5 +1,9 @@
-- hosts: linux-apache-mysql
+- hosts: mysql
+  become: yes
+  roles:
+    - City-of-Bloomington.mysql
+
+- hosts: apache
   become: yes
   roles:
     - City-of-Bloomington.apache
-    - City-of-Bloomington.mysql

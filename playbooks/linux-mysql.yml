@@ -1,4 +1,4 @@
-- hosts: linux-mysql
+- hosts: mysql
   become: yes
   roles:
     - City-of-Bloomington.mysql

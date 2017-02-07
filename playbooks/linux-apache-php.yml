@@ -1,4 +1,4 @@
-- hosts: linux-apache-php
+- hosts: php
   become: yes
   roles:
     - City-of-Bloomington.php

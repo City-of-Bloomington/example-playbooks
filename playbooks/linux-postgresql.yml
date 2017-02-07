@@ -1,5 +1,4 @@
-- hosts: linux-postgresql
+- hosts: postgresql
   become: yes
   roles:
-    - City-of-Bloomington.linux
     - City-of-Bloomington.postgresql

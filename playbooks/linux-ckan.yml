@@ -1,4 +1,4 @@
-- hosts: linux-ckan
+- hosts: ckan
   become: yes
   roles:
     - City-of-Bloomington.linux
@@ -7,4 +7,3 @@
     - City-of-Bloomington.solr
     - City-of-Bloomington.postgresql
     - City-of-Bloomington.ckan
-

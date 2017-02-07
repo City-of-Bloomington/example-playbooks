@@ -1,5 +1,4 @@
-- hosts: linux-solr
+- hosts: solr
   become: yes
   roles:
-    - City-of-Bloomington.linux
     - City-of-Bloomington.solr
