@@ -20,16 +20,14 @@ Documentation about the vault is available here:
 
 http://docs.ansible.com/ansible/playbooks_vault.html
 
-To run a playbook with access to variables protected with the vault, use "--ask-vault-pass". For example:
+To encrypt an already existing, unencrypted file:
 
-    ansible-playbook playbooks/linux.yml -i hosts.txt --ask-become-pass --ask-vault-pass
+    ansible-vault encrypt foo.yml
 
 To edit vaulted passwords:
 
     ansible-vault edit foo.yml
 
-To encrypt a file using the vault:
+To create a new encrypted file using the vault:
 
     ansible-vault create foo.yml
-
-All files in group_vars/vault are set to be ignored by version control.

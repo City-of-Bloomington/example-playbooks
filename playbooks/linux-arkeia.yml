@@ -1,0 +1,6 @@
+---
+- hosts: arkeia
+  become: yes
+  roles:
+    - City-of-Bloomington.arkeia
+...
