@@ -1,0 +1,4 @@
+- hosts: winbind
+  become: yes
+  roles:
+    - City-of-Bloomington.winbind

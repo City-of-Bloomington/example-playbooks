@@ -1,7 +1,0 @@
----
-# defaults file for cob.samba
-samba_version: 4.3
-samba_url: "https://download.samba.org/pub/samba/"
-setup_winbind: true
-
-- include: smbconf.yml
