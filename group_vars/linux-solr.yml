@@ -1,8 +1,0 @@
-solr_workspace: /usr/local/src
-
-solr_version: "5.5.3"
-solr_filename: "solr-{{ solr_version }}"
-solr_download_url: "http://packages.bloomington.in.gov/Apache/{{ solr_filename }}.tgz"
-
-solr_install_dir: /usr/local/solr
-solr_home: /srv/solr
