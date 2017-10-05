@@ -1,4 +1,0 @@
-asm_path: "{{ vault_asm_path }}"
-asm_db_name: "{{ vault_asm_db_name }}"
-asm_db_username: "{{ vault_asm_db_username }}"
-asm_db_password: "{{ vault_asm_db_password }}"
