@@ -1,12 +1,12 @@
 - src: City-of-Bloomington.linux
-- src: City-of-Bloomington.arkeia
 - src: City-of-Bloomington.apache
+- src: City-of-Bloomington.arkeia
+- src: City-of-Bloomington.drupal
 - src: City-of-Bloomington.mysql
+- src: City-of-Bloomington.nodejs
+- src: City-of-Bloomington.php
 - src: City-of-Bloomington.postgresql
 - src: City-of-Bloomington.solr
 - src: City-of-Bloomington.tomcat
-- src: City-of-Bloomington.wsgi
-- src: City-of-Bloomington.php
-- src: City-of-Bloomington.nodejs
-- src: City-of-Bloomington.drupal
 - src: City-of-Bloomington.winbind
+- src: City-of-Bloomington.wsgi
