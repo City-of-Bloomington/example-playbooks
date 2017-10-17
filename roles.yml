@@ -3,6 +3,7 @@
 - src: City-of-Bloomington.arkeia
 - src: City-of-Bloomington.drupal
 - src: City-of-Bloomington.mysql
+- src: City-of-Bloomington.netbox
 - src: City-of-Bloomington.nodejs
 - src: City-of-Bloomington.php
 - src: City-of-Bloomington.postgresql

@@ -1,0 +1,7 @@
+- hosts: netbox-prod
+  become: yes
+  roles:
+    - City-of-Bloomington.linux
+    - City-of-Bloomington.apache
+    - City-of-Bloomington.postgresql
+    - City-of-Bloomington.netbox
