@@ -1,5 +1,0 @@
-- hosts: windows
-  roles:
-    - cob.windows-common
-    - cob.nrpe
-
