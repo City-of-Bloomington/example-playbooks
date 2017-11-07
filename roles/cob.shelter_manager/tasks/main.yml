@@ -25,6 +25,11 @@
     - python-sphinx
     - python-sphinx-rtd-theme
     - texlive-latex-base
+    #*2017.11.06 10:56:40
+    # learned that this is a better configuration to use for storing sessions
+    # https://github.com/bobintetley/asm3/issues/305
+    - memcached
+    - python-memcache
 
     #should have been installed and configured already
     #- mysql-client

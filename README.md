@@ -249,6 +249,14 @@ This results in:
     "extracting geerlingguy.mysql to /etc/ansible/roles/geerlingguy.mysql" 
 
 
+TODO:
+
+Instructions for adding github oauth token:
+
+https://github.com/settings/tokens
+
+
+
 ## References
 
 Previously, we maintained instructions for manually configuring a linux system available here:
