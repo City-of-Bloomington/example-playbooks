@@ -1,0 +1,9 @@
+- hosts: winbind
+  become: yes
+  roles:
+    - City-of-Bloomington.winbind
+
+- hosts: arcgis-geodatabase
+  become: yes
+  roles:
+    - City-of-Bloomington.arcgis-geodatabase

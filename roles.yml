@@ -1,5 +1,6 @@
 - src: City-of-Bloomington.linux
 - src: City-of-Bloomington.apache
+- src: City-of-Bloomington.arcgis-geodatabase
 - src: City-of-Bloomington.arkeia
 - src: City-of-Bloomington.drupal
 - src: City-of-Bloomington.mysql
