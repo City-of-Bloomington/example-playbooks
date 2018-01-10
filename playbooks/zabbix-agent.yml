@@ -1,0 +1,4 @@
+- hosts: zabbix-agent
+  become: yes
+  roles:
+    - City-of-Bloomington.zabbix-agent
