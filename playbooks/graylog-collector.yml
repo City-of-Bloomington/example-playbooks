@@ -1,0 +1,6 @@
+- hosts: graylog-collector
+  become: yes
+  roles:
+    - City-of-Bloomington.graylog-collector
+    - City-of-Bloomington.linux
+  
