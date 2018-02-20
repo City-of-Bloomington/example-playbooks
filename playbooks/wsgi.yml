@@ -1,4 +1,0 @@
-- hosts: wsgi
-  become: yes
-  roles:
-    - City-of-Bloomington.wsgi

@@ -1,0 +1,38 @@
+---
+- hosts: winbind
+  become: yes
+  tasks:
+    - name: "Leave Domain"
+      command: "net ads leave -U {{ winbind_domain_admin.user }}%{{ winbind_domain_admin.pass }}"
+      no_log: True
+      ignore_errors: True
+      
+    - name: "Stop winbind"
+      service: name=winbind state=stopped
+      
+    - name: "Stop samba"
+      service: name=smbd state=stopped
+      
+    - name: "Delete winbind cache"
+      file:
+        path: "/var/lib/samba/winbindd_cache.tdb"
+        state: "absent"
+      
+    - name: "Delete samba cache"
+      command: "net cache flush"
+      
+    - name: "Start samba"
+      service: name=smbd state=started
+      
+    - name: "Start winbind"
+      service: name=winbind state=started
+      
+    - name: "Join Domain"
+      command: "net join -U {{ winbind_domain_admin.user }}%{{ winbind_domain_admin.pass }}"
+      
+    - name: "Delete groupmaps"
+      command: "net groupmap cleanup"
+      
+    - name: "Redo Group Mapping"
+      include_tasks: "../roles/City-of-Bloomington.winbind/tasks/groups.yml"
+...
