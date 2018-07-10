@@ -1,3 +1,4 @@
+---
 - src: City-of-Bloomington.linux
 - src: City-of-Bloomington.apache
 - src: City-of-Bloomington.arcgis-geodatabase
@@ -12,3 +13,4 @@
 - src: City-of-Bloomington.tomcat
 - src: City-of-Bloomington.winbind
 - src: City-of-Bloomington.wsgi
+...

@@ -1,7 +1,0 @@
-- hosts: linux-fileservers
-  become: yes
-  roles:
-    - City-of-Bloomington.linux
-    - cob.deploy_scripts
-    - cob.samba
-

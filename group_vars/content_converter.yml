@@ -1,5 +1,0 @@
-# do *not* include trailing slash!
-converter_path: /srv/content_converter
-converter_db_name: "{{ vault_converter_db_name }}"
-converter_db_username: "{{ vault_converter_db_username }}"
-converter_db_password: "{{ vault_converter_db_password }}"

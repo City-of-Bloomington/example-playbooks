@@ -1,4 +1,0 @@
-- hosts: drupal
-  become: yes
-  roles:
-    - City-of-Bloomington.drupal

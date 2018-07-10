@@ -1,4 +1,0 @@
-- hosts: nodejs
-  become: yes
-  roles:
-    - City-of-Bloomington.nodejs

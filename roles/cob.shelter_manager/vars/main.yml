@@ -1,9 +1,0 @@
----
-# vars file for cob.shelter_manager
-
-asm_path: /srv/asm
-asm_db_name: asm
-asm_db_username: user
-asm_db_password: pass
-
-apache_config: /etc/apache2/sites-available/000-default.conf

@@ -1,4 +1,0 @@
-- hosts: linux 
-  become: yes
-  roles:
-    - cob.nrpe

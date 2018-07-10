@@ -1,5 +1,0 @@
-[client]
-database = {{ converter_db_name }}
-user = {{ converter_db_username }}
-password = {{ converter_db_password }}
-default-character-set = utf8

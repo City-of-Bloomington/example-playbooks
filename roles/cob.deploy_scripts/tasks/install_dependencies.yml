@@ -1,5 +1,0 @@
----
-- name: "Install script dependencies"
-  apt: 
-    name: "{{ item }}"
-  with_items: "{{ script_dependencies }}"
