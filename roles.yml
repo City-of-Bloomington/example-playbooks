@@ -13,4 +13,5 @@
 - src: City-of-Bloomington.tomcat
 - src: City-of-Bloomington.winbind
 - src: City-of-Bloomington.wsgi
+- src: City-of-Bloomington.zabbix-agent
 ...
